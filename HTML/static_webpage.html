@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leo Fitness</title>
+    <link rel="icon" href="image/icon.png" type="image/png" />
+  </head>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@500;600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* CSS Reset */
+    body {
+      font-family: "Baloo Bhai 2", cursive;
+      color: white;
+      margin: 0px;
+      padding: 0px;
+      background: url("image/background.jpg");
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+      min-height: 100vh;
+      /* vh (view-port height) represents a percentage of the height of the viewport (the visible area of a web page in the browser window). */
+    }
+    .left {
+      display: inline-block;
+      position: absolute;
+      width: 131px;
+      /* border: 2px solid red; */
+      margin: 9px 1px;
+    }
+    .left img {
+      filter: invert(100%);
+      width: 100px;
+    }
+
+    .left {
+      font-size: larger;
+      width: 103px;
+      text-align: center;
+      color: white;
+    }
+
+    .mid {
+      position: relative;
+      /* border: 2px solid green; */
+      text-align: justify;
+      display: block;
+      width: 60%;
+      margin: -7px auto;
+      /* width: 1300px; */
+      /* height: auto !important; */
+      /* display: flex; */
+      align-items: center;
+      /* color: white; */
+    }
+
+    .right {
+      position: absolute;
+      right: -16px;
+      top: 15px;
+      display: inline-block;
+      /* border: 2px solid yellow; */
+      width: 200px;
+    }
+
+    .navbar {
+      display: inline-block;
+    }
+
+    .navbar li {
+      display: inline-block;
+      font-size: 23px;
+    }
+
+    .navbar li a {
+      color: white;
+      text-decoration: none;
+      padding: 54px;
+    }
+    .navbar li a:hover,
+    .navbar li a:active {
+      color: lightcoral;
+      transition: color 0.9s ease;
+      text-transform: uppercase;
+      text-decoration: underline;
+      font-size: 21px;
+    }
+
+    .btn {
+      font-family: "Baloo Bhai 2", cursive;
+      margin: -6px 5px;
+      background-color: black;
+      color: white;
+      font-size: large;
+      border: solid grey;
+      border-radius: 11px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: rgb(94, 89, 89);
+    }
+
+    .container {
+      border: 2px solid white;
+      margin: 91px 920px;
+      padding: 21px 113px 25px 100px;
+      width: 367px;
+      border-radius: 77px;
+    }
+
+    .form-group input {
+      text-align: center;
+      width: 350px;
+      display: block;
+      border: 2px solid black;
+      margin: 8px auto;
+      padding: 3px;
+      font-size: 19px;
+      border-radius: 10px;
+      font-family: "Baloo Bhai 2", cursive;
+    }
+    .container button {
+      display: block;
+      width: 359px;
+      margin: 36px auto;
+    }
+
+    .container h1 {
+      font-weight: bold;
+      font-size: 35px;
+    }
+
+    .centerleft {
+      /* border: 2px solid red; */
+      display: block;
+      margin: auto;
+      font-weight: bolder;
+      font-size: 43px;
+      text-align: left;
+      max-width: 39%;
+      padding: 22px 117px;
+      text-align: left;
+      position: absolute;
+      top: 19%;
+    }
+  </style>
+
+  <body>
+    <header class="header">
+      <!-- left box for logo -->
+      <div class="left">
+        <img src="image/logo.png" />
+        Leo Fitness
+      </div>
+
+      <!-- mid box for navigation -->
+      <div class="mid">
+        <ul class="navbar">
+          <li><a href="#" class="active">Home</a></li>
+          <li><a href="#">About us</a></li>
+          <li><a href="#">Fitness Center</a></li>
+          <li><a href="#">Contact us</a></li>
+        </ul>
+      </div>
+
+      <!-- right box for buttons  -->
+      <div class="right">
+        <button class="btn">Follow us</button><button class="btn">Email</button>
+      </div>
+
+      <div class="container">
+        <h1>Join the best GYM of Lahore!</h1>
+        <form action="noaction.php">
+          <div class="form-group">
+            <input type="text" name="" placeholder="Enter your Name" />
+          </div>
+          <div class="form-group">
+            <input type="text" name="" placeholder="Enter your Age" />
+          </div>
+          <div class="form-group">
+            <input type="text" name="" placeholder="Enter your Gender" />
+          </div>
+          <div class="form-group">
+            <input type="text" name="" placeholder="Enter your City" />
+          </div>
+          <button class="btn">Submit</button>
+        </form>
+      </div>
+
+      <div class="centerleft">
+        "Building Strong Bodies, Cultivating Strong Minds"
+      </div>
+    </header>
+  </body>
+</html>
