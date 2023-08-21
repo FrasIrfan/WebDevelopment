@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YouTube Clone</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="yt_icon.png" type="image/png" />
+
+  </head>
+
+  <style>
+    body,
+    h3,
+    p,
+    ul,
+    li {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    /* Header */
+    header {
+      background-color: black;
+      color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+    }
+
+    /* Search bar */
+    .search-bar {
+      display: flex;
+      align-items: center;
+    }
+
+    .search-bar input[type="text"] {
+      padding: 8px;
+      color: #ccc;
+      background-color: black;
+      border: 1px solid #ccc;
+      border-radius: 28px;
+      margin-right: 10px;
+      width: 559px;
+    }
+
+    .search-bar button {
+      background-color: black;
+      color: #ffffff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* Navigation */
+    nav {
+      background-color: black;
+      color: #ffffff;
+      padding: 10px;
+      width: 250px;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+    }
+
+    /* YouTube Icon */
+    .youtube-icon {
+      width: 35px;
+    }
+    
+    .logo-text {
+      font-size: xx-large;
+      margin: 19px;
+    }
+
+    nav ul {
+      list-style: none;
+    }
+
+    nav li {
+      margin-bottom: 10px;
+    }
+
+    nav a {
+      color: #ffffff;
+      display: block;
+      padding: 5px 0;
+      margin: 33px 2px -29px 1px;
+    }
+
+    /* Main content */
+    main {
+      margin-left: 250px; /* Match the width of the navigation bar */
+      padding: 20px;
+      background-color: black;
+    }
+
+    /* Video cards */
+    .video-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .video-card {
+      padding: 15px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background-color: black;
+      color: white;
+    }
+
+    .video-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 5px;
+    }
+
+    .video-card h3 {
+      margin-top: 10px;
+    }
+
+    .video-card p {
+      color: #666;
+    }
+
+    /* Footer */
+    footer {
+      background-color: black;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+
+    .logo {
+      color: white;
+    }
+  </style>
+
+  <body>
+    <header>
+      <div class="logo">
+        <img src="youtube-logo.png" alt="YouTube Logo" />
+      </div>
+      <div class="search-bar">
+        <input type="text" placeholder="Type here" />
+        <button>Search</button>
+    </div>
+    <div class="user-menu">
+        <!-- User profile image and menu options -->
+    </div>
+</header>
+
+<nav>
+    <img src="yt_icon.png" alt="YouTube Icon" class="youtube-icon" />
+    <span class="logo-text">YouTube</span>
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Trending</a></li>
+        <li><a href="#">Subscriptions</a></li>
+        <li><a href="#">Library</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <section class="video-list">
+        <!-- Video cards go here -->
+        <div class="video-card">
+          <img src="1.jpg" alt="Video Thumbnail" />
+          <h3>What is CPC</h3>
+          <p>Fras Irfan</p>
+        </div>
+
+        <div class="video-card">
+          <img src="2.jpg" alt="Video Thumbnail" />
+          <h3>Github student Developer Profile</h3>
+          <p>Fras Irfan</p>
+        </div>
+
+        <div class="video-card">
+          <img src="3.jpg" alt="Video Thumbnail" />
+          <h3>Flood Donations</h3>
+          <p>Fras Irfan</p>
+        </div>
+
+        <div class="video-card">
+          <img src="4.jpg" alt="Video Thumbnail" />
+          <h3>Autoshow Vlog</h3>
+          <p>Fras Irfan</p>
+        </div>
+
+        <div class="video-card">
+          <img src="5.jpg" alt="Video Thumbnail" />
+          <h3>14th August Vlog</h3>
+          <p>Fras Irfan</p>
+        </div>
+
+        <div class="video-card">
+          <img src="6.jpg" alt="Video Thumbnail" />
+          <h3>How To Get a Free Laptop</h3>
+          <p>Fras Irfan</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2023 YouTube Clone. All rights are not reserved.</p>
+    </footer>
+  </body>
+</html>
