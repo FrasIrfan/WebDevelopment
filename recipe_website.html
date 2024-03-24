@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Food Recipes</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+      }
+
+      header,
+      footer {
+        background-color: #ffcccc;
+        padding: 20px;
+        text-align: center;
+      }
+      nav {
+        background-color: #ffcccc;
+        padding: 10px;
+        text-align: center;
+      }
+      section {
+        padding: 20px;
+      }
+      .container {
+        max-width: 800px;
+        margin: auto;
+      }
+      h1,
+      h2 {
+        color: #333;
+      }
+      p {
+        color: #666;
+        line-height: 1.6;
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: auto;
+      }
+      iframe {
+        width: 100%;
+        height: 700px;
+        display: block;
+        margin: auto;
+        margin-bottom: 40px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+      th,
+      td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+      th {
+        background-color: #ffcccc;
+      }
+      footer {
+        position: sticky;
+        bottom: 0%;
+        width: 100%;
+        height: 5%;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Delicious Recipes</h1>
+    </header>
+
+    <nav>
+      <a href="#about">About</a> | <a href="#recipes">Recipes</a> |
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <section id="about" class="container">
+      <h2>About Us</h2>
+      <p>
+        Welcome to our food recipes website! We offer a variety of delicious
+        recipes for you to try at home.
+      </p>
+      <img src="khadijaaa.jpg" alt="Chef preparing food" />
+    </section>
+
+    <section id="recipes" class="container">
+      <h2>Recipes</h2>
+      <h3>Breakfast</h3>
+      <ul>
+        <li>Pancakes</li>
+        <li>French Toast</li>
+        <li>Omelette</li>
+      </ul>
+      <h3>Lunch</h3>
+      <ol>
+        <li>Spaghetti</li>
+        <li>Chicken Caesar Salad</li>
+        <li>Vegetable Soup</li>
+      </ol>
+      <h3>Dinner</h3>
+      <table>
+        <caption>
+          Dinner Recipes
+        </caption>
+        <tr>
+          <th>Recipe</th>
+          <th>Preparation Time</th>
+        </tr>
+        <tr>
+          <td>Italian Pizza</td>
+          <td>30 minutes</td>
+        </tr>
+        <tr>
+          <td>Beef Steak</td>
+          <td>25 minutes</td>
+        </tr>
+        <tr>
+          <td>Lasagna</td>
+          <td>40 minutes</td>
+        </tr>
+      </table>
+    </section>
+
+    <section id="contact" class="container">
+      <h2>Contact Us</h2>
+      <form action="#" method="post">
+        <label for="name">Name:</label><br />
+        <input type="text" id="name" name="name" required /><br />
+        <label for="email">Email:</label><br />
+        <input type="email" id="email" name="email" required /><br />
+        <label for="message">Message:</label><br />
+        <textarea id="message" name="message" rows="4" required></textarea
+        ><br />
+        <input type="submit" value="Submit" />
+      </form>
+    </section>
+
+    <iframe
+      controls
+      src="https://www.youtube.com/embed/mHipexNOAq4?si=ZbQ5gmtBSv7zM6r1"
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen
+    ></iframe>
+
+    <footer>
+      <p>&copy; 2024 Delicious Recipes. All rights reserved.</p>
+    </footer>
+  </body>
+</html>
