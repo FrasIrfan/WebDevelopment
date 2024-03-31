@@ -1,0 +1,62 @@
+/* Default color theme */
+:root {
+    --primary-color: #007bff; /* Blue */
+    --secondary-color: #6c757d; /* Gray */
+}
+
+/* Dark color theme */
+.dark-theme {
+    --primary-color: #004165; /* Darkened Blue */
+    --secondary-color: #343a40; /* Dark Gray */
+}
+
+.container {
+    max-width: 100%;
+    /* margin: 0 auto; */
+    text-align: center;
+    padding: 167px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
+    color: #fff; /* Text color */
+}
+
+h1, h2 {
+    font-family: Arial, sans-serif;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid var(--secondary-color);
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    color: var(--secondary-color);
+    font-size: 16px;
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Dark mode */
+body.dark-mode {
+    background-color: #333;
+    color: #fff;
+}
+
+.dark-mode .container {
+    background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
