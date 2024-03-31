@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
     { name: "Surah AlBaqara", number: 7, audio: "audio/surah.mp3" },
     { name: "Surah AlBaqara", number: 8, audio: "audio/surah.mp3" },
     { name: "Surah AlBaqara", number: 9, audio: "audio/surah.mp3" },
-    { name: "Surah AlBaqara", number: 10, audio: "audio/surah2.mp3" },
+    { name: "Surah AlBaqara", number: 10, audio: "audio/surah.mp3" },
   ];
 
   function playSurah(qariIdentifier, surahNumber) {
