@@ -6,25 +6,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Simulated qari data
   const qariData = [
-    { name: "Qari 1", identifier: "qari1" },
-    { name: "Qari 2", identifier: "qari2" },
+    { name: "Abdul Basit", identifier: "qari1" },
+    { name: "Abdul Samad", identifier: "qari2" },
     // Add more qari data as needed
   ];
 
   // Simulated surah data
   const surahData = {
     qari1: [
-      { name: "Surah 1", number: 1 },
-      { name: "Surah 2", number: 2 },
+      { name: "Surah AlFatiha", number: 1, audio: "audio/surah_Fatiha.mp3" },
+      { name: "Surah AlBaqara", number: 2, audio: "audio/surah2.mp3" },
       // Add more surah data for qari1
     ],
     qari2: [
-      { name: "Surah 3", number: 3 },
-      { name: "Surah 4", number: 4 },
+      { name: "Surah 3", number: 3, audio: "" },
+      { name: "Surah 4", number: 4, audio: "surah4.mp3" },
       // Add more surah data for qari2
     ],
-    // Add more surah data for other qaris as needed
   };
+
+  // Function to play selected surah
+  function playSurah(qariIdentifier, surahNumber) {
+    const surahs = surahData[qariIdentifier];
+    const surah = surahs.find((surah) => surah.number == surahNumber);
+    if (surah && surah.audio) {
+      audioPlayer.src = surah.audio;
+      audioPlayer.play();
+    } else {
+      console.error("Error: Surah audio not found or empty.");
+    }
+  }
 
   // Function to populate qari select options
   function populateQariSelect() {
@@ -47,6 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
       surahSelect.add(option);
     });
   }
+
   const toggleSwitch = document.querySelector(
     '.theme-switch input[type="checkbox"]'
   );
@@ -68,5 +80,12 @@ document.addEventListener("DOMContentLoaded", function () {
   qariSelect.addEventListener("change", function () {
     const selectedQari = this.value;
     fetchSurahs(selectedQari);
+  });
+
+  // Event listener for surah selection
+  surahSelect.addEventListener("change", function () {
+    const selectedQari = qariSelect.value;
+    const selectedSurah = this.value;
+    playSurah(selectedQari, selectedSurah);
   });
 });
