@@ -1,10 +1,8 @@
-/* Default color theme */
 :root {
     --primary-color: #007bff; /* Blue */
     --secondary-color: #6c757d; /* Gray */
 }
 
-/* Dark color theme */
 .dark-theme {
     --primary-color: #004165; /* Darkened Blue */
     --secondary-color: #343a40; /* Dark Gray */
@@ -12,7 +10,6 @@
 
 .container {
     max-width: 100%;
-    /* margin: 0 auto; */
     text-align: center;
     padding: 167px;
     border-radius: 10px;
@@ -50,7 +47,6 @@ button:hover {
     background-color: #0056b3;
 }
 
-/* Dark mode */
 body.dark-mode {
     background-color: #333;
     color: #fff;
