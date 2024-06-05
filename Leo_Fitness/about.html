@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leo Fitness - About Us</title>
+    <link rel="icon" href="image/icon.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        /* Add additional styles for the About Us page, if needed */
+        .about-us-container {
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+            padding: 40px;
+            border-radius: 15px;
+            margin: 50px auto;
+            width: 80%;
+            max-width: 800px; /* Set a maximum width for better readability */
+            color: white;
+        }
+
+        .about-us-container h1,
+        .about-us-container h2 {
+            text-align: center;
+        }
+
+        .about-us-container p {
+            line-height: 1.6; /* Adjust line spacing for better readability */
+        }
+
+        .team-members {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid for team members */
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .team-member {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%; /* Make images circular */
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <!-- This is the same header from your main website -->
+        <div class="left">
+            <img src="image/logo.png" />
+            Leo Fitness
+        </div>
+        <div class="mid">
+            <ul class="navbar">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html" class="active">About us</a></li> 
+                <li><a href="contact.html">Contact us</a></li>
+            </ul>
+        </div>
+        <div class="right">
+            <button class="btn" id="followBtn">Follow us</button>
+            <button class="btn" id="emailBtn">Email</button>
+            <div id="socialLinks" style="display: none;">
+                <a href="https://www.facebook.com">Facebook</a> |
+                <a href="https://www.instagram.com">Instagram</a> |
+                <a href="https://www.twitter.com">Twitter</a>
+            </div>
+            <div id="emailLink" style="display: none;">
+                <a href="mailto:info@leofitness.com">info@leofitness.com</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="about-us-container">
+        <h1>About Leo Fitness</h1>
+        <p class="lead">We are a dedicated team of professionals committed to providing top-notch fitness services. Our mission is to help you achieve your fitness goals and live a healthier life.</p>
+
+        <h2>Our Team</h2>
+        <div class="team-members">
+            <div class="team-member">
+                <img src="image/IMRAN.jpg" class="rounded-circle mb-3" alt="Khan Sb">
+                <h4>IMRAN KHAN</h4>
+                <p>CEO & Founder</p>
+                <p>Khan has over 20 years of experience in the fitness industry. His vision and leadership have been instrumental in our success.</p>
+            </div>
+            <div class="team-member">
+                <img src="image/ASIM.jpg" class="rounded-circle mb-3" alt="Vigo">
+                <h4>ASIM MUNIR</h4>
+                <p>Chief Marketing Officer</p>
+                <p>Asim's expertise in marketing strategies has helped us reach a wider audience and grow our brand.</p>
+            </div>
+
+        </div>
+
+        <h2>Our Values</h2>
+        <p class="lead">We believe in integrity, innovation, and customer satisfaction. Our values drive us to achieve excellence in every project we undertake.</p>
+    </section>
+    
+    <footer class="footer">
+        <p>
+            © 2024 Leo Fitness. All rights reserved. | Designed by
+            [FHSIZ]
+        </p>
+    </footer>
+
+    <!-- <script src="main.js"></script> -->
+</body>
+</html>

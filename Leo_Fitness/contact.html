@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leo Fitness - Contact Us</title>
+    <link rel="icon" href="image/icon.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+      body {
+        font-family: "Baloo Bhai 2", cursive;
+        color: white;
+        margin: 0px;
+        padding: 0px;
+        background: url("/FrasIrfan.github.io/image/background.jpg"); /* Updated path to your uploaded image */
+        background-size: cover;
+        background-position: center;
+        overflow: hidden;
+        min-height: 100vh;
+      }
+      .left {
+        display: inline-block;
+        position: absolute;
+        width: 131px;
+        margin: 9px 1px;
+      }
+      .left img {
+        filter: invert(100%);
+        width: 100px;
+      }
+      .left {
+        font-size: larger;
+        width: 103px;
+        text-align: center;
+        color: white;
+      }
+      .mid {
+        position: relative;
+        text-align: justify;
+        display: block;
+        width: 60%;
+        margin: -7px auto;
+        align-items: center;
+      }
+      .right {
+        position: absolute;
+        right: -16px;
+        top: 15px;
+        display: inline-block;
+        width: 200px;
+      }
+      .navbar {
+        display: inline-block;
+      }
+      .navbar li {
+        display: inline-block;
+        font-size: 23px;
+      }
+      .navbar li a {
+        color: white;
+        text-decoration: none;
+        padding: 54px;
+      }
+      .navbar li a:hover,
+      .navbar li a:active {
+        color: lightcoral;
+        transition: color 0.9s ease;
+        text-transform: uppercase;
+        text-decoration: underline;
+        font-size: 21px;
+      }
+      .btn {
+        font-family: "Baloo Bhai 2", cursive;
+        margin: -6px 5px;
+        background-color: black;
+        color: white;
+        font-size: large;
+        border: solid grey;
+        border-radius: 11px;
+        cursor: pointer;
+      }
+      .btn:hover {
+        background-color: rgb(94, 89, 89);
+      }
+      .contact-container {
+        border: 2px solid white;
+        margin: 100px auto;
+        padding: 40px;
+        width: 400px;
+        border-radius: 15px;
+        background-color: rgba(0, 0, 0, 0.7);
+        overflow-y: auto;
+      }
+      .contact-container h2 {
+        font-size: 28px;
+        text-align: center;
+      }
+      .contact-container form {
+        display: flex;
+        flex-direction: column;
+      }
+      .contact-container form input,
+      .contact-container form textarea {
+        margin: 10px 0;
+        padding: 10px;
+        font-size: 18px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+      .contact-container form button {
+        margin-top: 20px;
+        padding: 10px;
+        font-size: 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #555;
+        color: white;
+        cursor: pointer;
+      }
+      .contact-container form button:hover {
+        background-color: #444;
+      }
+      .intro-text {
+        text-align: center;
+        margin: 40px auto;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 20px;
+        border-radius: 15px;
+        width: 60%;
+      }
+      .intro-text h1 {
+        font-size: 36px;
+      }
+      .intro-text p {
+        font-size: 20px;
+      }
+      .additional-info {
+        text-align: center;
+        margin: 20px auto;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 20px;
+        border-radius: 15px;
+        width: 60%;
+      }
+      .additional-info h3 {
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+      .additional-info p {
+        font-size: 18px;
+        margin: 5px 0;
+      }
+      .map {
+        width: 100%;
+        height: 300px;
+        border: 0;
+        border-radius: 15px;
+        margin: 20px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <!-- left box for logo -->
+      <div class="left">
+        <img src="image/logo.png" />
+        Leo Fitness
+      </div>
+      <!-- mid box for navigation -->
+      <div class="mid">
+        <ul class="navbar">
+          <li><a href="/index.html">Home</a></li>
+          <li><a href="/about.html">About us</a></li>
+          <li><a href="/contact.html" class="active">Contact us</a></li>
+        </ul>
+      </div>
+      <!-- right box for buttons  -->
+      <div class="right">
+        <button class="btn">Follow us</button><button class="btn">Email</button>
+      </div>
+    </header>
+    
+    <div class="intro-text">
+      <h1>Welcome to Leo Fitness</h1>
+      <p>We are here to assist you with any inquiries you may have. Feel free to reach out to us using the contact form below.</p>
+    </div>
+    
+    <div class="additional-info">
+      <h3>Our Contact Information</h3>
+      <p><strong>Phone:</strong> 0324-7443563</p>
+      <p><strong>Phone:</strong> 0303-8843714</p>
+      <p><strong>Phone:</strong> 0309-6613227</p>
+      <p><strong>Email:</strong> LEO@leofitness.com</p>
+      <p><strong>Address:</strong> Sigma fitness center., Lahore, Pakistan</p>
+    </div>
+    
+    <iframe
+      class="map"
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.0863202102293!2d-122.4194155846822!3d37.774929779759524!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085809cabe9fb0f%3A0x8f0b7f7a71f9a0f0!2sGolden%20Gate%20Bridge!5e0!3m2!1sen!2sus!4v1614112954887!5m2!1sen!2sus"
+      allowfullscreen=""
+      loading="lazy"
+    ></iframe>
+  </body>
+</html>
