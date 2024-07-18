@@ -1,0 +1,125 @@
+/* CSS Reset */
+body {
+  font-family: "Baloo Bhai 2", cursive;
+  color: white;
+  margin: 0px;
+  padding: 0px;
+  background: url("image/man_with_dumbell.jpg");
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  min-height: 100vh;
+  /* vh (view-port height) represents a percentage of the height of the viewport (the visible area of a web page in the browser window). */
+}
+.left {
+    display: inline-block;
+    position: absolute;
+    width: 131px;
+    margin: 12px 9px;
+}
+.left img {
+  width: 105px;
+}
+
+.mid {
+  position: relative;
+  /* border: 2px solid green; */
+  text-align: justify;
+  display: block;
+  width: 73%;
+  margin: -7px auto;
+  /* width: 1300px; */
+  /* height: auto !important; */
+  /* display: flex; */
+  align-items: center;
+  /* color: white; */
+}
+
+.right {
+  position: absolute;
+  right: -16px;
+  top: 15px;
+  display: inline-block;
+  /* border: 2px solid yellow; */
+  width: 200px;
+}
+
+.navbar {
+  display: inline-block;
+}
+
+.navbar li {
+  display: inline-block;
+  font-size: 23px;
+}
+
+.navbar li a {
+  color: white;
+  text-decoration: none;
+  padding: 54px;
+}
+.navbar li a:hover,
+.navbar li a:active {
+  color: rgb(255, 149, 0);
+  transition: color 0.9s ease;
+  text-transform: uppercase;
+  text-decoration: underline;
+  font-size: 21px;
+}
+
+.btn {
+    font-family: "Baloo Bhai 2", cursive;
+    margin: 4px;
+    background-color: black;
+    color: white;
+    font-size: larger;
+    border: solid grey;
+    border-radius: 30px;
+    cursor: pointer;
+    padding: 0px 9px;
+    text-decoration: none;
+
+}
+
+.btn:hover {
+  background-color: rgb(0, 255, 102);
+  color: black;
+}
+
+.container {
+    border: 2px solid white;
+    margin: 124px 6px;
+    padding: 15px 274px 24px 70px;
+    width: 300px;
+    border-radius: 80px;
+    background: rgba(0, 0, 0, 0.45); /* semi-transparent background */
+  }
+
+
+.container button {
+  display: block;
+  width: 259px; /* Adjusted width to fit smaller container */
+  margin: 36px auto;
+}
+
+.container h1 {
+  font-weight: bold;
+  font-size: 35px;
+}
+
+/* Footer styles */
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px 0;
+  text-align: center;
+}
+
+.footer p {
+  color: white;
+  margin: 0;
+}
+
