@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     // SQL to fetch the user
-    $sql = "SELECT id, username, password FROM Registrations WHERE username = ?";
+    $sql = "SELECT id, username, password FROM Users WHERE username = ?";
     $statement = $mysqli->prepare($sql);
 
     if ($statement === false) {
@@ -27,20 +27,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($result->num_rows === 1) {
             $user = $result->fetch_assoc();
 
-            // Verify the password
+
+            // Check if the password and userType are being correctly fetched
+            // echo "Password from DB: " . $user['password'] . "<br>";
+            // echo "User type from DB: " . $user['userType'] . "<br>";
+            // echo "Provided password: " . $password . "<br>";
+            // Verify the password and check if owner has logged in
+            // if (password_verify($password, $user['password']) && $user['userType'] === "owner") {
+            //     // Start a session and set session variables
+            //     $_SESSION['userid'] = $user['id'];
+            //     $_SESSION['username'] = $user['username'];
+            //     // Redirect to a dashboard or another page
+            //     echo "Owner has logged in";
+            //     // header("Location: dashboard.php");
+            //     exit();
+            // }
+
+            
+            //Verify the password
             if (password_verify($password, $user['password'])) {
                 // Start a session and set session variables
                 $_SESSION['userid'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
-                echo "Login successful! Welcome " . htmlspecialchars($user['username']) . ".";
                 // Redirect to a dashboard or another page
-                header("Location: homepage.php");
+                header("Location: dashboard.php");
                 exit();
-            } else {
-                echo "Invalid password.";
             }
         } else {
-            echo "Invalid username.";
+            echo "Invalid password.";
         }
 
         // Close statement
@@ -53,6 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,6 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Including bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
     <div class="container mt-5">
         <h2>Login</h2>
@@ -88,4 +104,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

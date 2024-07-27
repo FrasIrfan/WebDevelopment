@@ -12,10 +12,10 @@ body {
   /* vh (view-port height) represents a percentage of the height of the viewport (the visible area of a web page in the browser window). */
 }
 .left {
-    display: inline-block;
-    position: absolute;
-    width: 131px;
-    margin: 12px 9px;
+  display: inline-block;
+  position: absolute;
+  width: 131px;
+  margin: 12px 9px;
 }
 .left img {
   width: 105px;
@@ -30,17 +30,15 @@ body {
   margin: 1px 198px;
   color: white;
 }
-  
 
 .right {
   position: absolute;
-  right: 11px;
+  right: -88px;
   top: 19px;
   display: inline-block;
   /* border: 2px solid yellow; */
   width: 187px;
 }
-
 
 .navbar {
   display: inline-block;
@@ -48,13 +46,13 @@ body {
 
 .navbar li {
   display: inline-block;
-  font-size: 23px;
+  font-size: 22px;
 }
 
 .navbar li a {
   color: white;
   text-decoration: none;
-  padding: 54px;
+  padding: 28px;
 }
 .navbar li a:hover,
 .navbar li a:active {
@@ -62,21 +60,20 @@ body {
   transition: color 0.9s ease;
   text-transform: uppercase;
   text-decoration: underline;
-  font-size: 21px;
+  font-size: 23px;
 }
 
 .btn {
-    font-family: "Baloo Bhai 2", cursive;
-    margin: 4px;
-    background-color: black;
-    color: white;
-    font-size: larger;
-    border: solid grey;
-    border-radius: 30px;
-    cursor: pointer;
-    padding: 0px 9px;
-    text-decoration: none;
-
+  font-family: "Baloo Bhai 2", cursive;
+  margin: 4px;
+  background-color: black;
+  color: white;
+  font-size: larger;
+  border: solid grey;
+  border-radius: 30px;
+  cursor: pointer;
+  padding: 0px 9px;
+  text-decoration: none;
 }
 
 .btn:hover {
@@ -85,14 +82,13 @@ body {
 }
 
 .container {
-    border: 2px solid white;
-    margin: 124px 6px;
-    padding: 15px 274px 24px 70px;
-    width: 300px;
-    border-radius: 80px;
-    background: rgba(0, 0, 0, 0.45); /* semi-transparent background */
-  }
-
+  border: 2px solid white;
+  margin: 124px 6px;
+  padding: 15px 274px 24px 70px;
+  width: 300px;
+  border-radius: 80px;
+  background: rgba(0, 0, 0, 0.45); /* semi-transparent background */
+}
 
 .container button {
   display: block;
@@ -120,4 +116,3 @@ body {
   color: white;
   margin: 0;
 }
-
