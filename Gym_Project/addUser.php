@@ -51,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         echo "Please fill out all required fields.";
     }
+
 }
 ?>
 
@@ -61,61 +62,55 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Add User</title>
     <!-- Including bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
     <div class="container mt-5">
-        <h2>Register as new user</h2>
-        <br>
-        <form method="POST" action="registration.php">
-            <div class="mb-3">
-                <label for="fname" class="form-label">First Name</label>
-                <input type="text" class="form-control" id="fname" name="fname">
-            </div>
-            <div class="mb-3">
-                <label for="lname" class="form-label">Last Name</label>
-                <input type="text" class="form-control" id="lname" name="lname">
-            </div>
-            <div class="mb-3">
-                <label for="phone" class="form-label">Phone Number</label>
-                <input type="text" class="form-control" id="phone" name="phone">
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email">
-            </div>
-            <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="username" name="username">
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password">
-            </div>
-            <div class="mb-3">
-                <label for="UserType" class="form-label">User Type</label>
-                <select name="UserType" id="UserType" class="form-control">
-                    <option value="">Select a type</option>
-                    <!-- <option value="owner">Owner</option> -->
-                    <option value="member">Member</option>
-                    <option value="trainer">Trainer</option>
-                    <option value="worker">Worker</option>
-                    <option value="janitor">Janitor</option>
-                </select>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Register</button>
-        </form>
-
-        <div class="mt-3">
-            <a href="login.php" class="btn btn-secondary">Login</a>
-        </div>
+        <h2>Add User</h2>
+        <form method="POST" action="addUser.php">
+    <div class="mb-3">
+        <label for="fname" class="form-label">First Name</label>
+        <input type="text" class="form-control" id="fname" name="fname">
+    </div>
+    <div class="mb-3">
+        <label for="lname" class="form-label">Last Name</label>
+        <input type="text" class="form-control" id="lname" name="lname" >
+    </div>
+    <div class="mb-3">
+        <label for="phone" class="form-label">Phone Number</label>
+        <input type="text" class="form-control" id="phone" name="phone" >
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" >
+    </div>
+    <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" class="form-control" id="username" name="username" >
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" name="password" >
+    </div>
+    <div class="mb-3">
+        <label for="UserType" class="form-label">User Type</label>
+        <select name="UserType" id="UserType" class="form-control" >
+            <option value="">Select a type</option>
+            <!-- <option value="owner">Owner</option> -->
+            <option value="member">Member</option>
+            <option value="trainer">Trainer</option>
+            <option value="worker">Worker</option>
+            <option value="janitor">Janitor</option>
+        </select>
     </div>
 
+    <button type="submit" class="btn btn-primary">Add New User</button>
+</form>
 
+    </div>
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

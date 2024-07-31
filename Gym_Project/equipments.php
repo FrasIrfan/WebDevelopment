@@ -1,5 +1,5 @@
 <?php
-include "config.php";  // Using database connection file here
+include "config.php";  // Ensure $mysqli is initialized in config.php
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -8,47 +8,41 @@ error_reporting(E_ALL);
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Initialize variables and check for each field's presence
+    $addedBy = isset($_POST['addedBy']) ? $_POST['addedBy'] : null;
     $equipmentName = isset($_POST['equipmentName']) ? $_POST['equipmentName'] : null;
     $buyingPrice = isset($_POST['buyingPrice']) ? $_POST['buyingPrice'] : null;
-    $AddedBy = isset($_POST['AddedBy']) ? $_POST['AddedBy'] : null;
-    
-    // Ensure required fields are filled
-    if ($equipmentName && $buyingPrice && $AddedBy && $email && $username && $password && $userType && $userTimings && $Age !== null) {
-        // SQL to insert data
-        $sql = "INSERT INTO Users (equipmentName, buyingPrice, AddedBy, email, username, password, createdBY, userType, userTimings, Age, Weight, Height) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        // Prepare statement with mysqli
-        $statement = $mysqli->prepare($sql);
+    // SQL to insert data
+    $sql = "INSERT INTO Equipments (AddedBy, EquipmentName, BuyingPrice) VALUES (?, ?, ?)";
 
-        if ($statement === false) {
-            echo "Error preparing statement: " . $mysqli->error;
-        } else {
-            // Bind parameters and execute statement
-            $statement->bind_param(
-                "sis",
-                $equipmentName,       // String
-                $buyingPrice,       // Integer
-                $AddedBy,       // String
-                
-            );
+    // Prepare statement with mysqli
+    $statement = $mysqli->prepare($sql);
 
-            // Execute statement
-            if ($statement->execute()) {
-                echo "Signup successful!";
-            } else {
-                echo "Error: " . $statement->error;
-            }
-
-            // Close statement
-            $statement->close();
-        }
+    if ($statement === false) {
+        echo "Error preparing statement: " . $mysqli->error;
     } else {
-        echo "Please fill out all required fields.";
-    }
+        // Bind parameters and execute statement
+        $statement->bind_param(
+            "ssi",
+            $addedBy,       // ENUM value (string)
+            $equipmentName, // String
+            $buyingPrice    // Integer
+        );
 
+        // Execute statement
+        if ($statement->execute()) {
+            echo "Equipment Added!";
+        } else {
+            echo "Error: " . $statement->error;
+        }
+
+        // Close statement
+        $statement->close();
+    }
+} else {
+    echo "Please fill out all required fields.";
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -56,35 +50,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup Form</title>
+    <title>Equipments</title>
     <!-- Including bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
     <div class="container mt-5">
-        <h2>Equipments</h2>
+        <h2>Add Equipments</h2>
         <form method="POST" action="equipments.php">
-    <div class="mb-3">
-        <label for="equipmentName" class="form-label">Equipment Name</label>
-        <input type="text" class="form-control" id="equipmentName" name="equipmentName" required>
-    </div>
-    <div class="mb-3">
-        <label for="buyingPrice" class="form-label">Buying Price</label>
-        <input type="text" class="form-control" id="buyingPrice" name="buyingPrice" required>
-    </div>
-    <div class="mb-3">
-        <label for="AddedBy" class="form-label">Added By</label>
-        <input type="text" class="form-control" id="AddedBy" name="AddedBy" required>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Sumbit</button>
-</form>
-
-    <!-- Button to login -->
-    <div class="mt-3">
-        <a href="login.php" class="btn btn-secondary">Login</a>
-    </div>
+            <div class="mb-3">
+                <label for="equipmentName" class="form-label">Equipment Name</label>
+                <input type="text" class="form-control" id="equipmentName" name="equipmentName" required>
+            </div>
+            <div class="mb-3">
+                <label for="buyingPrice" class="form-label">Buying Price</label>
+                <input type="text" class="form-control" id="buyingPrice" name="buyingPrice" required>
+            </div>
+            <div class="mb-3">
+                <label for="addedBy" class="form-label">Added By</label>
+                <select name="addedBy" id="addedBy" class="form-control" required>
+                    <option value="">Select a type</option>
+                    <option value="owner">Owner</option>
+                    <option value="trainer">Trainer</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Equipment</button>
+        </form>
     </div>
 
     <!-- Bootstrap JS and dependencies -->

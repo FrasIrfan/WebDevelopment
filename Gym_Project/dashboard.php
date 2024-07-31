@@ -46,7 +46,7 @@ if (!isset($_SESSION['username'])) {
                 <li><a href="#" class="active">Home</a></li>
                 <li><a href="/about.html">Trainers & Nutritionists</a></li>
                 <li><a href="/payments.html">Workout Plans</a></li>
-                <li><a href="/contact.html">Equipment</a></li>
+                <li><a href="/Gym_Project/equipments.php">Equipment</a></li>
                 <li><a href="/about.html">Timings</a></li>
                 <li><a href="/Gym_Project/payments.php">Payments</a></li>
 
