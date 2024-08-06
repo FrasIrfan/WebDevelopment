@@ -4,23 +4,24 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-session_start();
+// Include the database configuration file to establish a database connection
 include 'config.php';
+session_start();
 
 // Check if there is a connection error with the database
 if ($mysqli->connect_error) {
+    // Terminate the script and display the connection error
     die("Connection failed: " . $mysqli->connect_error);
 } else {
     // Display a success message if the connection is established
     echo "<div class='alert alert-success' role='alert'>";
     echo "Connected successfully to database: " . $dbname;
     echo "</div>";
+    // print_r($_SESSION);
 }
 
-$sql = "SELECT Users.username, Attendances.Status, Attendances.Date
-        FROM Attendances
-        JOIN Users ON Attendances.UserID = Users.ID";
-
+// SQL query to select first name, last name, and email from the registrations table
+$sql = "SELECT PackageName, PackagePrice, CreatedAt FROM Packages";
 // Execute the SQL query and store the result in $result
 $result = $mysqli->query($sql);
 ?>
@@ -31,24 +32,25 @@ $result = $mysqli->query($sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attendance Sheet</title>
+    <title>Read Packages</title>
     <!-- Include Bootstrap CSS for responsive and styled UI components -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
     <div class="container mt-5">
-        <h2>Attendance Sheet</h2>
-        <?php if ($result && $result->num_rows > 0) { // Check if the query returned any rows 
+        <h2>Packages List</h2>
+        <?php if ($result->num_rows > 0) { // Check if the query returned any rows 
         ?>
             <!-- Create a table to display the user list with Bootstrap classes for styling -->
             <table class="table table-bordered">
                 <thead>
                     <!-- Define table headers -->
                     <tr>
-                        <th>Attendance of</th>
-                        <th>Attendance Status</th>
-                        <th>Date</th>
+                        <th>Package Name</th>
+                        <th>Package Price</th>
+                        <th>Updated at</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -56,20 +58,21 @@ $result = $mysqli->query($sql);
                     // Loop through each row in the result set
                     while ($row = $result->fetch_assoc()) { ?>
                         <tr>
-                            <td><?= $row['username'] ?></td>
-                            <td><?= $row['Status'] ?></td>
-                            <td><?= $row['Date'] ?></td>
+                            <!-- Output the first name, last name, and email of each user -->
+                            <td><?= $row['PackageName'] ?></td>
+                            <td><?= $row['PackagePrice'] ?></td>
+                            <td><?= $row['CreatedAt'] ?></td>
+
                         </tr>
-                    <?php }
-                    ?>
+                    <?php } ?>
                 </tbody>
             </table>
-        <?php } else { ?>
+        <?php } else { // If no rows were returned, display a message indicating no users found 
+        ?>
             <div class="alert alert-warning" role="alert">
-                No attendance records found.
+                No Packages found.
             </div>
         <?php } ?>
-
     </div>
 
     <!-- Include Bootstrap's JavaScript and jQuery libraries for interactive components -->
@@ -82,4 +85,4 @@ $result = $mysqli->query($sql);
 <?php
 // Close the database connection to free up resources
 $mysqli->close();
-?>
+?></table>

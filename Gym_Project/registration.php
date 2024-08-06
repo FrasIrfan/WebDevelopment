@@ -40,7 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             );
             // Execute statement
             if ($statement->execute()) {
+                echo "<div class = 'alert alert-success' role = 'alert'>";
                 echo "Signup successful!";
+                echo "</div>";
             } else {
                 echo "Error: " . $statement->error;
             }
@@ -101,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <option value="">Select a type</option>
                     <!-- <option value="owner">Owner</option> -->
                     <option value="member">Member</option>
-                    <option value="trainer">Trainer</option>
+                    <!-- <option value="trainer">Trainer</option> -->
                     <option value="worker">Worker</option>
                     <option value="janitor">Janitor</option>
                 </select>

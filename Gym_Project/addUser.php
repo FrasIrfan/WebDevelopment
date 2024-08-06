@@ -40,7 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             );
             // Execute statement
             if ($statement->execute()) {
-                echo "Signup successful!";
+                echo "<div class='alert alert-success' role='alert'>";
+                echo "User added successfully!";
+                echo "</div>";
             } else {
                 echo "Error: " . $statement->error;
             }
@@ -51,7 +53,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         echo "Please fill out all required fields.";
     }
-
 }
 ?>
 
@@ -71,44 +72,47 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="container mt-5">
         <h2>Add User</h2>
         <form method="POST" action="addUser.php">
-    <div class="mb-3">
-        <label for="fname" class="form-label">First Name</label>
-        <input type="text" class="form-control" id="fname" name="fname">
-    </div>
-    <div class="mb-3">
-        <label for="lname" class="form-label">Last Name</label>
-        <input type="text" class="form-control" id="lname" name="lname" >
-    </div>
-    <div class="mb-3">
-        <label for="phone" class="form-label">Phone Number</label>
-        <input type="text" class="form-control" id="phone" name="phone" >
-    </div>
-    <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" name="email" >
-    </div>
-    <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="username" name="username" >
-    </div>
-    <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" name="password" >
-    </div>
-    <div class="mb-3">
-        <label for="UserType" class="form-label">User Type</label>
-        <select name="UserType" id="UserType" class="form-control" >
-            <option value="">Select a type</option>
-            <!-- <option value="owner">Owner</option> -->
-            <option value="member">Member</option>
-            <option value="trainer">Trainer</option>
-            <option value="worker">Worker</option>
-            <option value="janitor">Janitor</option>
-        </select>
-    </div>
+            <div class="mb-3">
+                <label for="fname" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="fname" name="fname">
+            </div>
+            <div class="mb-3">
+                <label for="lname" class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="lname" name="lname">
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="text" class="form-control" id="phone" name="phone">
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email">
+            </div>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" name="username">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password">
+            </div>
+            <div class="mb-3">
+                <label for="UserType" class="form-label">User Type</label>
+                <select name="UserType" id="UserType" class="form-control">
+                    <option value="">Select a type</option>
+                    <!-- <option value="owner">Owner</option> -->
+                    <option value="member">Member</option>
+                    <option value="trainer">Trainer</option>
+                    <option value="worker">Worker</option>
+                    <option value="janitor">Janitor</option>
+                </select>
+            </div>
 
-    <button type="submit" class="btn btn-primary">Add New User</button>
-</form>
+            <button type="submit" class="btn btn-primary">Add New User</button>
+        </form>
+        <div class="mt-3">
+            <a href="readUsers.php" class="btn btn-secondary">See all Users</a>
+        </div>
 
     </div>
 

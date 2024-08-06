@@ -40,7 +40,7 @@ $result = $mysqli->query($sql);
 <body>
     <div class="container mt-5">
         <h2>Equipment List</h2>
-        <?php if ($result->num_rows > 0) : // Check if the query returned any rows 
+        <?php if ($result->num_rows > 0) { // Check if the query returned any rows 
         ?>
             <!-- Create a table to display the user list with Bootstrap classes for styling -->
             <table class="table table-bordered">
@@ -56,7 +56,7 @@ $result = $mysqli->query($sql);
                 <tbody>
                     <?php
                     // Loop through each row in the result set
-                    while ($row = $result->fetch_assoc()) : ?>
+                    while ($row = $result->fetch_assoc()) { ?>
                         <tr>
                             <!-- Output the first name, last name, and email of each user -->
                             <td><?= htmlspecialchars($row['EquipmentName']) ?></td>
@@ -64,15 +64,17 @@ $result = $mysqli->query($sql);
                             <td><?= htmlspecialchars($row['CreatedAt']) ?></td>
 
                         </tr>
-                    <?php endwhile; ?>
+                    <?php } ?>
                 </tbody>
             </table>
-        <?php else : // If no rows were returned, display a message indicating no users found 
+        <?php
+        } else { // If no rows were returned, display a message indicating no users found 
         ?>
             <div class="alert alert-warning" role="alert">
                 No Equipment found.
             </div>
-        <?php endif; ?>
+        <?php
+        } ?>
     </div>
 
     <!-- Include Bootstrap's JavaScript and jQuery libraries for interactive components -->

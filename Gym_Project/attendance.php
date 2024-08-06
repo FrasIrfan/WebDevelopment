@@ -5,46 +5,87 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// session_start();
+session_start();
+
+$sql = "SELECT ID, username, userType FROM Users WHERE userType = 'member'";
+
+// store data 
+$storedata = $mysqli->query($sql);
+
+if (!$storedata) {
+    echo "Error fetching data: " . $mysqli->error;
+    exit();
+}
+
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Initialize variables and check for each field's presence
-    $AttendanceOf = isset($_POST['AttendanceOf']) ? $_POST['AttendanceOf'] : null;
-    $AttendanceStatus = isset($_POST['AttendanceStatus']) ? $_POST['AttendanceStatus'] : null;
+    $UserID = isset($_POST['UserID']) ? $_POST['UserID'] : null;
+    $Date = isset($_POST['Date']) ? $_POST['Date'] : null;
+    $Status = isset($_POST['Status']) ? $_POST['Status'] : null;
 
-    // SQL to insert data
-    $sql = "INSERT INTO Attendances (AttendanceOf, AttendanceStatus) VALUES (?, ?)";
+    if (!empty($UserID) && !empty($Status) && !empty($Date)) {
+        // Check if an attendance record already exists for the user on the given date
+        $check_sql = "SELECT * FROM Attendances WHERE UserID = ? AND Date = ?";
+        $check_statement = $mysqli->prepare($check_sql);
 
-    // Prepare statement with mysqli
-    $statement = $mysqli->prepare($sql);
-
-    if ($statement === false) {
-        echo "Error preparing statement: " . $mysqli->error;
-    } else {
-        // Bind parameters and execute statement
-        $statement->bind_param(
-            "is",
-            $AttendanceOf, // Integer
-            $AttendanceStatus    // String
-        );
-
-        // Execute statement
-        if ($statement->execute()) {
-            echo "<div class='alert alert-success' role='alert'>";
-            echo "Attendance Added!";
-            echo "</div>";
+        if ($check_statement === false) {
+            echo "Error preparing check statement: " . $mysqli->error;
         } else {
-            echo "Error: " . $statement->error;
-        }
+            // Bind parameters and execute statement
+            $check_statement->bind_param(
+                "is",
+                $UserID,
+                $Date
+            );
 
-        // Close statement
-        $statement->close();
+            // Execute statement
+            $check_statement->execute();
+            $result = $check_statement->get_result();
+
+            if ($result->num_rows > 0) {
+                // Record already exists
+                echo "<div class='alert alert-warning' role='alert'>";
+                echo "Attendance for this user on this date already exists.";
+                echo "</div>";
+            } else {
+                // SQL to insert data
+                $sql = "INSERT INTO Attendances (UserID, Status, Date) VALUES (?, ?, ?)";
+                $statement = $mysqli->prepare($sql);
+
+                if ($statement === false) {
+                    echo "Error preparing statement: " . $mysqli->error;
+                } else {
+                    // Bind parameters and execute statement
+                    $statement->bind_param(
+                        "iss",
+                        $UserID,
+                        $Status,
+                        $Date
+                    );
+
+                    // Execute statement
+                    if ($statement->execute()) {
+                        echo "<div class='alert alert-success' role='alert'>";
+                        echo "Attendance Added!";
+                        echo "</div>";
+                    } else {
+                        echo "Error: " . $statement->error;
+                    }
+
+                    // Close statement
+                    $statement->close();
+                }
+            }
+
+            // Close the check statement
+            $check_statement->close();
+        }
+    } else {
+        echo "Please fill out all required fields.";
     }
-} else {
-    echo "Please fill out all required fields.";
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,21 +93,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Attendance</title>
-    <!-- Including bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
     <div class="container mt-5">
-        <h2>Add Attendance</h2>
+        <h2>Attendance</h2>
         <form method="POST" action="attendance.php">
             <div class="mb-3">
-                <label for="AttendanceOf" class="form-label">Attendance of</label>
-                <input type="text" class="form-control" id="AttendanceOf" name="AttendanceOf" required>
+                <label for="UserID" class="form-label">User ID</label>
+                <select name="UserID" id="UserID" class="form-control" required>
+                    <?php
+                    if ($storedata->num_rows > 0) { // Check if the query returned any rows
+                        // Loop through each row in the result set
+                        while ($row = $storedata->fetch_assoc()) {
+                    ?>
+                    <option value="<?= htmlspecialchars($row['ID']); ?>">
+                        <?= htmlspecialchars($row['username']); ?>
+                    </option>
+                    <?php
+                        }
+                    }
+                    ?>
+                </select>
             </div>
+
             <div class="mb-3">
-                <label for="AttendanceStatus" class="form-label">Attendance Status</label>
-                <input type="text" class="form-control" id="AttendanceStatus" name="AttendanceStatus" required>
+                <label for="Date" class="form-label">Date</label>
+                <input type="date" name="Date" id="Date" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="Status" class="form-label">Attendance Status</label>
+                <select name="Status" id="Status" class="form-control" required>
+                    <option value="">Select Status</option>
+                    <option value="Present">Present</option>
+                    <option value="Absent">Absent</option>
+                </select>
             </div>
             <button type="submit" class="btn btn-primary">Add Attendance</button>
         </form>

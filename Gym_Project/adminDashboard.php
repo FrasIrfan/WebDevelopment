@@ -43,22 +43,23 @@ if (!isset($_SESSION['username'])) {
         <!-- mid box for navigation -->
         <div class="mid">
             <ul class="navbar">
-                <li><a href="/Gym_Project/addUser.php">Users</a></li>
-                <li><a href="/about.html">Trainers</a></li>
+                <li><a href="/Gym_Project/readUsers.php">Users</a></li>
                 <li><a href="/Gym_Project/attendance.php">Attendance</a></li>
                 <li><a href="/Gym_Project/equipments.php">Equipment</a></li>
                 <li><a href="/Gym_Project/timings.php">Timings</a></li>
-                <li><a href="/Gym_Project/payments.php">Payments</a></li>
+                <li><a href="/Gym_Project/readPayments.php">Payments</a></li>
+                <li><a href="/Gym_Project/packagePrice.php">Packages</a></li>
 
 
             </ul>
         </div>
 
-        <!-- right box for buttons  -->
+        <!-- right box for buttons and notifications -->
         <div class="right">
             <a href="logout.php" class="btn">Logout</a>
-            <!-- <a href="registration.php" class="btn">Register</a> -->
         </div>
+
+
 
         <div class="container">
             <h1>Welcome <?php echo htmlspecialchars($_SESSION['username']); ?></h1>
