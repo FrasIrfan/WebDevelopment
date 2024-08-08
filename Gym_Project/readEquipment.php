@@ -12,16 +12,10 @@ session_start();
 if ($mysqli->connect_error) {
     // Terminate the script and display the connection error
     die("Connection failed: " . $mysqli->connect_error);
-} else {
-    // Display a success message if the connection is established
-    echo "<div class='alert alert-success' role='alert'>";
-    echo "Connected successfully to database: " . $dbname;
-    echo "</div>";
-    // print_r($_SESSION);
 }
 
 // SQL query to select first name, last name, and email from the registrations table
-$sql = "SELECT EquipmentName, BuyingPrice, CreatedAt FROM Equipments";
+$sql = "SELECT EquipmentID, EquipmentName, BuyingPrice, CreatedAt FROM Equipments";
 // Execute the SQL query and store the result in $result
 $result = $mysqli->query($sql);
 ?>
@@ -39,7 +33,10 @@ $result = $mysqli->query($sql);
 
 <body>
     <div class="container mt-5">
-        <h2>Equipment List</h2>
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>Equipment List</h2>
+            <a href="equipments.php" class="btn btn-info">Add Equipment</a>
+        </div>
         <?php if ($result->num_rows > 0) { // Check if the query returned any rows 
         ?>
             <!-- Create a table to display the user list with Bootstrap classes for styling -->
@@ -62,7 +59,10 @@ $result = $mysqli->query($sql);
                             <td><?= htmlspecialchars($row['EquipmentName']) ?></td>
                             <td><?= htmlspecialchars($row['BuyingPrice']) ?></td>
                             <td><?= htmlspecialchars($row['CreatedAt']) ?></td>
-
+                            <!-- Add an Edit button linking to the edit page with the equipment ID -->
+                            <td>
+                                <a href="editEquipment.php?id=<?= htmlspecialchars($row['EquipmentID']) ?>" class="btn btn-primary btn-sm">Edit</a>
+                            </td>
                         </tr>
                     <?php } ?>
                 </tbody>

@@ -44,11 +44,11 @@ if (!isset($_SESSION['username'])) {
         <div class="mid">
             <ul class="navbar">
                 <li><a href="/Gym_Project/readUsers.php">Users</a></li>
-                <li><a href="/Gym_Project/attendance.php">Attendance</a></li>
-                <li><a href="/Gym_Project/equipments.php">Equipment</a></li>
-                <li><a href="/Gym_Project/timings.php">Timings</a></li>
+                <li><a href="/Gym_Project/readAttendance.php">Attendance</a></li>
+                <li><a href="/Gym_Project/readEquipment.php">Equipment</a></li>
+                <li><a href="/Gym_Project/readTimings.php">Timings</a></li>
                 <li><a href="/Gym_Project/readPayments.php">Payments</a></li>
-                <li><a href="/Gym_Project/packagePrice.php">Packages</a></li>
+                <li><a href="/Gym_Project/readPackages.php">Packages</a></li>
 
 
             </ul>

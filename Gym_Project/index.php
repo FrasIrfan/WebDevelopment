@@ -20,14 +20,13 @@
         </div>
 
         <!-- mid box for navigation -->
-        <div class="mid">
+        <!-- <div class="mid">
             <ul class="navbar">
-                <li><a href="#" class="active">Home</a></li>
-                <li><a href="/about.html">Trainers & Nutritionists</a></li>
-                <li><a href="/contact.html">Equipment</a></li>
-                <li><a href="/about.html">Timings</a></li>
-            </ul>
-        </div>
+                <!-- <li><a href="/about.html">Trainers</a></li> -->
+                <!-- <li><a href="/contact.html">Equipment</a></li> -->
+                <!-- <li><a href="/about.html">Timings</a></li> -->
+            <!-- </ul> -->
+        <!-- </div> --> -->
 
         <!-- right box for buttons  -->
         <div class="right">

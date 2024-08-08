@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <h2>Attendance</h2>
         <form method="POST" action="attendance.php">
             <div class="mb-3">
-                <label for="UserID" class="form-label">User ID</label>
+                <label for="UserID" class="form-label">Select User</label>
                 <select name="UserID" id="UserID" class="form-control" required>
                     <?php
                     if ($storedata->num_rows > 0) { // Check if the query returned any rows

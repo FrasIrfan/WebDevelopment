@@ -12,11 +12,6 @@ session_start();
 if ($mysqli->connect_error) {
     // Terminate the script and display the connection error
     die("Connection failed: " . $mysqli->connect_error);
-} else {
-    // Display a success message if the connection is established
-    echo "<div class='alert alert-success' role='alert'>";
-    echo "Connected successfully to database: " . $dbname;
-    echo "</div>";
 }
 
 // SQL query to select payment details from the Payments table
@@ -38,11 +33,11 @@ $result = $mysqli->query($sql);
 
 <body>
     <div class="container mt-5">
-        <h2>Payments List</h2>
-        <div class="mt-3">
-            <a href="payments.php" class="btn btn-primary">Make a Payment</a>
-            <br>
+    <div class="d-flex justify-content-between align-items-center">
+            <h2>Payments List</h2>
+            <a href="payments.php" class="btn btn-info">Make a Payment</a>
         </div>
+        
         <?php if ($result->num_rows > 0) { // Check if the query returned any rows 
         ?>
             <!-- Create a table to display the payment list with Bootstrap classes for styling -->

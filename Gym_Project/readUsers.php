@@ -11,15 +11,10 @@ include 'config.php';
 if ($mysqli->connect_error) {
     // Terminate the script and display the connection error
     die("Connection failed: " . $mysqli->connect_error);
-} else {
-    // Display a success message if the connection is established
-    echo "<div class='alert alert-success' role='alert'>";
-    echo "Connected successfully to database: " . $dbname;
-    echo "</div>";
 }
 
 // SQL query to select first name, last name, and email from the registrations table
-$sql = "SELECT fname, lname,phone, email,username, CreatedAt, UserType FROM Users";
+$sql = "SELECT ID,fname, lname,phone, email,username, CreatedAt, UserType FROM Users WHERE UserType != 'owner'";
 // Execute the SQL query and store the result in $result
 $result = $mysqli->query($sql);
 ?>
@@ -37,7 +32,11 @@ $result = $mysqli->query($sql);
 
 <body>
     <div class="container mt-5">
-        <h2>User List</h2>
+
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>User List</h2>
+            <a href="addUser.php" class="btn btn-info">Add User</a>
+        </div>
         <?php if ($result->num_rows > 0) { // Check if the query returned any rows 
         ?>
             <!-- Create a table to display the user list with Bootstrap classes for styling -->
@@ -67,6 +66,9 @@ $result = $mysqli->query($sql);
                             <td><?= $row['username'] ?></td>
                             <td><?= $row['CreatedAt'] ?></td>
                             <td><?= $row['UserType'] ?></td>
+                            <td>
+                                <a href="editUser.php?id=<?= $row['ID'] ?>" class="btn btn-primary btn-sm">Edit</a>
+                            </td>
                         </tr>
                     <?php } ?>
                 </tbody>
@@ -77,9 +79,7 @@ $result = $mysqli->query($sql);
                 No users found.
             </div>
         <?php } ?>
-        <div class="mt-3">
-            <a href="addUser.php" class="btn btn-primary">Add User</a>
-        </div>
+    
     </div>
 
 

@@ -15,7 +15,7 @@ if ($mysqli->connect_error) {
 } 
 
 // SQL query to select first name, last name, and email from the registrations table
-$sql = "SELECT PackageName, PackagePrice, CreatedAt FROM Packages";
+$sql = "SELECT Shifts, startTime, endTime FROM Timings";
 // Execute the SQL query and store the result in $result
 $result = $mysqli->query($sql);
 ?>
@@ -26,7 +26,7 @@ $result = $mysqli->query($sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Read Packages</title>
+    <title>Timings</title>
     <!-- Include Bootstrap CSS for responsive and styled UI components -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -34,42 +34,50 @@ $result = $mysqli->query($sql);
 <body>
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center">
-            <h2>Packages List</h2>
-            <a href="packagePrice.php" class="btn btn-info">Update Package</a>
+            <h2>Timings</h2>
+            <a href="timings.php" class="btn btn-info">Update Timings</a>
         </div>
         <?php if ($result->num_rows > 0) { // Check if the query returned any rows 
         ?>
             <!-- Create a table to display the user list with Bootstrap classes for styling -->
-            <table class="table table-bordered">
+            <table class="table table-bordered mt-3">
                 <thead>
                     <!-- Define table headers -->
                     <tr>
-                        <th>Package Name</th>
-                        <th>Package Price</th>
-                        <th>Updated at</th>
-
+                        <th>Shift</th>
+                        <th>Start Time</th>
+                        <th>Close Time</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
                     // Loop through each row in the result set
-                    while ($row = $result->fetch_assoc()) { ?>
-                        <tr>
-                            <!-- Output the first name, last name, and email of each user -->
-                            <td><?= $row['PackageName'] ?></td>
-                            <td><?= $row['PackagePrice'] ?></td>
-                            <td><?= $row['CreatedAt'] ?></td>
+                    while ($row = $result->fetch_assoc()) {
+                        // Convert startTime and endTime to DateTime objects
+                        $startTime = new DateTime($row['startTime']);
+                        $endTime = new DateTime($row['endTime']);
 
+                        // Format the times to AM/PM format
+                        $formattedStartTime = $startTime->format('h:i A');
+                        $formattedEndTime = $endTime->format('h:i A');
+                    ?>
+                        <tr>
+                            <td><?= $row['Shifts']?></td>
+                            <td><?= $formattedStartTime ?></td>
+                            <td><?= $formattedEndTime ?></td>
                         </tr>
                     <?php } ?>
                 </tbody>
             </table>
-        <?php } else { // If no rows were returned, display a message indicating no users found 
+        <?php
+        } else { // If no rows were returned, display a message indicating no users found 
         ?>
-            <div class="alert alert-warning" role="alert">
-                No Packages found.
+            <div class="alert alert-warning mt-3" role="alert">
+                Timings will be updated soon.
             </div>
-        <?php } ?>
+        <?php
+        } ?>
+
     </div>
 
     <!-- Include Bootstrap's JavaScript and jQuery libraries for interactive components -->
@@ -82,4 +90,4 @@ $result = $mysqli->query($sql);
 <?php
 // Close the database connection to free up resources
 $mysqli->close();
-?></table>
+?>

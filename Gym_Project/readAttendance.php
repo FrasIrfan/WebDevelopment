@@ -10,11 +10,6 @@ include 'config.php';
 // Check if there is a connection error with the database
 if ($mysqli->connect_error) {
     die("Connection failed: " . $mysqli->connect_error);
-} else {
-    // Display a success message if the connection is established
-    echo "<div class='alert alert-success' role='alert'>";
-    echo "Connected successfully to database: " . $dbname;
-    echo "</div>";
 }
 
 $sql = "SELECT Users.username, Attendances.Status, Attendances.Date
@@ -38,7 +33,10 @@ $result = $mysqli->query($sql);
 
 <body>
     <div class="container mt-5">
-        <h2>Attendance Sheet</h2>
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>Attendance Sheet</h2>
+            <a href="attendance.php" class="btn btn-info">Add Attendance</a>
+        </div>
         <?php if ($result && $result->num_rows > 0) { // Check if the query returned any rows 
         ?>
             <!-- Create a table to display the user list with Bootstrap classes for styling -->

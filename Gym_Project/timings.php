@@ -79,6 +79,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <button type="submit" class="btn btn-primary">Update Time</button>
         </form>
+        <div class="mt-3">
+            <a href="readTimings.php" class="btn btn-secondary">See Timings</a>
+        </div>
+
+        
     </div>
 
     <script>
@@ -105,6 +110,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         generateTimeOptions(startTimeSelect);
         generateTimeOptions(endTimeSelect);
     </script>
+
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
