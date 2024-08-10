@@ -108,8 +108,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         // Loop through each row in the result set
                         while ($row = $storedata->fetch_assoc()) {
                     ?>
-                    <option value="<?= htmlspecialchars($row['ID']); ?>">
-                        <?= htmlspecialchars($row['username']); ?>
+                    <option value="<?= $row['ID']; ?>">
+                        <?= $row['username']; ?>
                     </option>
                     <?php
                         }

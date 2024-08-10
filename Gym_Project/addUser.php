@@ -1,9 +1,20 @@
 <?php
 include "config.php";  // Using database connection file here
 
+session_start();
+$currentUserId = $_SESSION['username'];
+
+// Fetch the user type of the current logged-in user
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+// $createdBy = null;
+// $sqlUserType = "SELECT username FROM Users WHERE ID = ?";
+// $stmtUserType = $mysqli->prepare($sqlUserType);
+// $stmtUserType->bind_param("i", $currentUserId);
+// $stmtUserType->execute();
+// $resultUserType = $stmtUserType->get_result();
 
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -15,11 +26,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = isset($_POST['username']) ? $_POST['username'] : null;
     $password = isset($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : null;
     $userType = isset($_POST['UserType']) ? $_POST['UserType'] : null;
+    $createdBy = $currentUserId;
 
     // Ensure required fields are filled
-    if ($fname && $lname && $phone && $email && $username && $password && $userType  !== null) {
+    if ($fname && $lname && $phone && $email && $username && $password && $userType && $createdBy !== null) {
         // SQL to insert data
-        $sql = "INSERT INTO Users (fname, lname, phone, email, username, password, userType) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO Users (fname, lname, phone, email, username, password, userType , CreatedBy) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         // Prepare statement with mysqli
         $statement = $mysqli->prepare($sql);
@@ -29,14 +41,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             // Bind parameters and execute statement
             $statement->bind_param(
-                "sssssss",
+                "sssssssi",
                 $fname,       // String
                 $lname,       // String
                 $phone,       // String
                 $email,       // String
                 $username,    // String
                 $password,    // String
-                $userType,    // String (ENUM)
+                $userType,
+                $createdBy
+                // String (ENUM)
             );
             // Execute statement
             if ($statement->execute()) {

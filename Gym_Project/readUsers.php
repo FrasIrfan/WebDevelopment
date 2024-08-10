@@ -4,17 +4,18 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+session_start();
 // Include the database configuration file to establish a database connection
 include 'config.php';
 
 // Check if there is a connection error with the database
-if ($mysqli->connect_error) {
-    // Terminate the script and display the connection error
-    die("Connection failed: " . $mysqli->connect_error);
-}
+// if ($mysqli->connect_error) {
+//     // Terminate the script and display the connection error
+//     die("Connection failed: " . $mysqli->connect_error);
+// }
 
 // SQL query to select first name, last name, and email from the registrations table
-$sql = "SELECT ID,fname, lname,phone, email,username, CreatedAt, UserType FROM Users WHERE UserType != 'owner'";
+$sql = "SELECT ID,fname, lname,phone, email,username, CreatedAt,CreatedBy, UserType FROM Users WHERE UserType != 'owner'";
 // Execute the SQL query and store the result in $result
 $result = $mysqli->query($sql);
 ?>
@@ -37,6 +38,10 @@ $result = $mysqli->query($sql);
             <h2>User List</h2>
             <a href="addUser.php" class="btn btn-info">Add User</a>
         </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <!-- <h2>User List</h2> -->
+            <a href="adminDashboard.php" class="btn btn-info">Go Back</a>
+        </div>
         <?php if ($result->num_rows > 0) { // Check if the query returned any rows 
         ?>
             <!-- Create a table to display the user list with Bootstrap classes for styling -->
@@ -44,13 +49,18 @@ $result = $mysqli->query($sql);
                 <thead>
                     <!-- Define table headers -->
                     <tr>
+                        <th>User ID</th>
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Phone</th>
                         <th>Email</th>
                         <th>Username</th>
-                        <th>CreatedAt</th>
-                        <th>UserType</th>
+                        <th>Created At</th>
+                        <th>Created By</th>
+
+                        <th>User Type</th>
+                        <!-- <th>Actions</th> -->
+                        <!--  -->
                     </tr>
                 </thead>
                 <tbody>
@@ -59,16 +69,22 @@ $result = $mysqli->query($sql);
                     while ($row = $result->fetch_assoc()) { ?>
                         <tr>
                             <!-- Output the first name, last name, and email of each user -->
+                            <td><?= $row['ID'] ?></td>
                             <td><?= $row['fname'] ?></td>
                             <td><?= $row['lname'] ?></td>
                             <td><?= $row['phone'] ?></td>
                             <td><?= $row['email'] ?></td>
                             <td><?= $row['username'] ?></td>
                             <td><?= $row['CreatedAt'] ?></td>
+                            <td><?= $row['CreatedBy'] ?></td>
                             <td><?= $row['UserType'] ?></td>
                             <td>
                                 <a href="editUser.php?id=<?= $row['ID'] ?>" class="btn btn-primary btn-sm">Edit</a>
                             </td>
+                            <td>
+                                <a href="deleteUser.php?id=<?= $row['ID'] ?>" class="btn btn-danger btn-sm">Remove</a>
+                            </td>
+
                         </tr>
                     <?php } ?>
                 </tbody>
@@ -79,7 +95,7 @@ $result = $mysqli->query($sql);
                 No users found.
             </div>
         <?php } ?>
-    
+
     </div>
 
 

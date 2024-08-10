@@ -23,6 +23,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $statement->bind_param("s", $username);
         $statement->execute();
         $result = $statement->get_result();
+        // print_r($result);
+        // print_r(die);
 
         if ($result->num_rows === 1) {
             $user = $result->fetch_assoc();

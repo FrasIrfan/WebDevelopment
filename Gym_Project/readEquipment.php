@@ -26,7 +26,7 @@ $result = $mysqli->query($sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User List</title>
+    <title>Equipment List</title>
     <!-- Include Bootstrap CSS for responsive and styled UI components -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -56,12 +56,15 @@ $result = $mysqli->query($sql);
                     while ($row = $result->fetch_assoc()) { ?>
                         <tr>
                             <!-- Output the first name, last name, and email of each user -->
-                            <td><?= htmlspecialchars($row['EquipmentName']) ?></td>
-                            <td><?= htmlspecialchars($row['BuyingPrice']) ?></td>
-                            <td><?= htmlspecialchars($row['CreatedAt']) ?></td>
+                            <td><?= $row['EquipmentName'] ?></td>
+                            <td><?= $row['BuyingPrice'] ?></td>
+                            <td><?= $row['CreatedAt'] ?></td>
                             <!-- Add an Edit button linking to the edit page with the equipment ID -->
                             <td>
-                                <a href="editEquipment.php?id=<?= htmlspecialchars($row['EquipmentID']) ?>" class="btn btn-primary btn-sm">Edit</a>
+                                <a href="editEquipment.php?id=<?= $row['EquipmentID'] ?>" class="btn btn-primary btn-sm">Edit</a>
+                            </td>
+                            <td>
+                                <a href="deleteEquipment.php?id=<?= $row['EquipmentID'] ?>" class="btn btn-danger btn-sm">Remove</a>
                             </td>
                         </tr>
                     <?php } ?>

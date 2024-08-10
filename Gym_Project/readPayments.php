@@ -15,7 +15,11 @@ if ($mysqli->connect_error) {
 }
 
 // SQL query to select payment details from the Payments table
-$sql = "SELECT PaidBy, PayerAmount, PaymentMethod, PaymentRecievedBy, PaymentProof, CreatedAt FROM Payments";
+$sql = "
+    SELECT Users.username AS PaidBy, Payments.PayerAmount, Payments.PaymentMethod, Payments.PaymentRecievedBy, Payments.PaymentProof, Payments.CreatedAt
+    FROM Payments
+    JOIN Users ON Payments.PaidBy = Users.ID
+";
 // Execute the SQL query and store the result in $result
 $result = $mysqli->query($sql);
 ?>
@@ -33,11 +37,11 @@ $result = $mysqli->query($sql);
 
 <body>
     <div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-between align-items-center">
             <h2>Payments List</h2>
             <a href="payments.php" class="btn btn-info">Make a Payment</a>
         </div>
-        
+
         <?php if ($result->num_rows > 0) { // Check if the query returned any rows 
         ?>
             <!-- Create a table to display the payment list with Bootstrap classes for styling -->

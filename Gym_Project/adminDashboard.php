@@ -62,7 +62,7 @@ if (!isset($_SESSION['username'])) {
 
 
         <div class="container">
-            <h1>Welcome <?php echo htmlspecialchars($_SESSION['username']); ?></h1>
+            <h1>Welcome <?php echo $_SESSION['username']; ?></h1>
             <p>
                 Hope your doing great !
                 <br>

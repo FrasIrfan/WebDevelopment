@@ -71,47 +71,46 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <div class="mb-3">
                 <label for="startTime" class="form-label">Start Time</label>
-                <select class="form-control" id="startTime" name="startTime" required></select>
+                <select class="form-control" id="startTime" name="startTime" required>
+                    <?php
+                    $interval = 60;
+                    for ($hour = 0; $hour < 24; $hour++) {
+                        for ($minute = 0; $minute < 60; $minute += $interval) {
+                            $ampm = $hour < 12 ? 'AM' : 'PM';
+                            $displayHour = $hour % 12 === 0 ? 12 : $hour % 12; 
+                            $displayMinute = $minute < 10 ? "0$minute" : $minute;
+                            $timeLabel = "$displayHour:$displayMinute $ampm";
+                            $value = sprintf('%02d:%02d:00', $hour, $minute);
+                            echo "<option value=\"$value\">$timeLabel</option>\n";
+                        }
+                    }
+                    ?>
+                </select>
             </div>
             <div class="mb-3">
                 <label for="endTime" class="form-label">End Time</label>
-                <select class="form-control" id="endTime" name="endTime" required></select>
+                <select class="form-control" id="endTime" name="endTime" required>
+                    <?php
+                    $interval = 60; 
+                    for ($hour = 0; $hour < 24; $hour++) {
+                        for ($minute = 0; $minute < 60; $minute += $interval) {
+                            $ampm = $hour < 12 ? 'AM' : 'PM';
+                            $displayHour = $hour % 12 === 0 ? 12 : $hour % 12; 
+                            $displayMinute = $minute < 10 ? "0$minute" : $minute;
+                            $timeLabel = "$displayHour:$displayMinute $ampm";
+                            $value = sprintf('%02d:%02d:00', $hour, $minute);
+                            echo "<option value=\"$value\">$timeLabel</option>\n";
+                        }
+                    }
+                    ?>
+                </select>
             </div>
             <button type="submit" class="btn btn-primary">Update Time</button>
         </form>
         <div class="mt-3">
             <a href="readTimings.php" class="btn btn-secondary">See Timings</a>
         </div>
-
-        
     </div>
-
-    <script>
-        // Function to generate time options and add them to select elements
-        function generateTimeOptions(selectElement) {
-            const interval = 60; // Interval in minutes
-            for (let hour = 0; hour < 24; hour++) {
-                for (let minute = 0; minute < 60; minute += interval) {
-                    const ampm = hour < 12 ? 'AM' : 'PM';
-                    const displayHour = hour % 12 === 0 ? 12 : hour % 12; // Convert to 12-hour format
-                    const displayMinute = minute < 10 ? `0${minute}` : minute;
-                    const timeLabel = `${displayHour}:${displayMinute} ${ampm}`;
-                    const option = document.createElement('option');
-                    option.value = `${hour.toString().padStart(2, '0')}:${displayMinute}:00`;
-                    option.textContent = timeLabel;
-                    selectElement.appendChild(option);
-                }
-            }
-        }
-
-        // Adding time options to both startTime and endTime dropdowns
-        const startTimeSelect = document.getElementById('startTime');
-        const endTimeSelect = document.getElementById('endTime');
-        generateTimeOptions(startTimeSelect);
-        generateTimeOptions(endTimeSelect);
-    </script>
-
-
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

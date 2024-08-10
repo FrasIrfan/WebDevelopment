@@ -12,7 +12,7 @@ if ($mysqli->connect_error) {
     die("Connection failed: " . $mysqli->connect_error);
 }
 
-$sql = "SELECT Users.username, Attendances.Status, Attendances.Date
+$sql = "SELECT Users.username, Users.ID, Attendances.Status, Attendances.Date
         FROM Attendances
         JOIN Users ON Attendances.UserID = Users.ID";
 
@@ -45,6 +45,8 @@ $result = $mysqli->query($sql);
                     <!-- Define table headers -->
                     <tr>
                         <th>Attendance of</th>
+                        <th>UserID</th>
+
                         <th>Attendance Status</th>
                         <th>Date</th>
                     </tr>
@@ -54,7 +56,10 @@ $result = $mysqli->query($sql);
                     // Loop through each row in the result set
                     while ($row = $result->fetch_assoc()) { ?>
                         <tr>
+
                             <td><?= $row['username'] ?></td>
+                            <td><?= $row['ID'] ?></td>
+
                             <td><?= $row['Status'] ?></td>
                             <td><?= $row['Date'] ?></td>
                         </tr>
