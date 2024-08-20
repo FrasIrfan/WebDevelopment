@@ -12,7 +12,7 @@ session_start();
 if ($mysqli->connect_error) {
     // Terminate the script and display the connection error
     die("Connection failed: " . $mysqli->connect_error);
-} 
+}
 
 // SQL query to select first name, last name, and email from the registrations table
 $sql = "SELECT PackageName, PackagePrice, CreatedAt FROM Packages";
@@ -35,7 +35,10 @@ $result = $mysqli->query($sql);
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center">
             <h2>Packages List</h2>
-            <a href="packagePrice.php" class="btn btn-info">Update Package</a>
+            <div>
+                <a href="packagePrice.php" class="btn btn-info">Update Package</a>
+                <a href="adminDashboard.php" class="btn btn-info">Go Back</a>
+            </div>
         </div>
         <?php if ($result->num_rows > 0) { // Check if the query returned any rows 
         ?>

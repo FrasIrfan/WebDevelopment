@@ -43,12 +43,12 @@ if (!isset($_SESSION['username'])) {
         <!-- mid box for navigation -->
         <div class="mid">
             <ul class="navbar">
-                <li><a href="#" class="active">Home</a></li>
-                <li><a href="/about.html">Trainers</a></li>
-                <li><a href="/payments.html">Workout Plans</a></li>
-                <li><a href="/Gym_Project/">Equipment</a></li>
-                <li><a href="/about.html">Timings</a></li>
-                <li><a href="/Gym_Project/payments.php">Payments</a></li>
+                <li><a href="/Gym_Project/userDetails.php">About me</a></li>
+                <li><a href="/Gym_Project/markAttendance.php">Mark Attendance</a></li>
+                <li><a href="/Gym_Project/paymentOfSpecificUser.php">Make Payment</a></li>
+                <li><a href="/Gym_Project/UserTimings.php">Select Timing</a></li>
+                <li><a href="/Gym_Project/UserPackage.php">Choose Package</a></li>
+            
 
 
             </ul>

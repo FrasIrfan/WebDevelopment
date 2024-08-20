@@ -39,7 +39,10 @@ $result = $mysqli->query($sql);
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center">
             <h2>Payments List</h2>
-            <a href="payments.php" class="btn btn-info">Make a Payment</a>
+            <div>
+                <a href="payments.php" class="btn btn-info">Make a Payment</a>
+                <a href="adminDashboard.php" class="btn btn-info">Go Back</a>
+            </div>
         </div>
 
         <?php if ($result->num_rows > 0) { // Check if the query returned any rows 
@@ -67,7 +70,15 @@ $result = $mysqli->query($sql);
                             <td><?= $row['PayerAmount'] ?></td>
                             <td><?= $row['PaymentMethod'] ?></td>
                             <td><?= $row['PaymentRecievedBy'] ?></td>
-                            <td><?= $row['PaymentProof'] ?></td>
+                            <td>
+                                <?php if (!empty($row['PaymentProof'])) { ?>
+                                    <!-- Display the payment proof image -->
+                                    <img src="/Gym_Project/fileUploads/paymentProof<?= $row['PaymentProof'] ?>" style="max-width: 100px; height: auto;">
+                                <?php } else { ?>
+                                    No Proof Provided
+                                <?php } ?>
+                            </td>
+
                             <td><?= $row['CreatedAt'] ?></td>
                         </tr>
                     <?php } ?>

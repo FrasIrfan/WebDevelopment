@@ -35,7 +35,10 @@ $result = $mysqli->query($sql);
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center">
             <h2>Equipment List</h2>
+            <div>
             <a href="equipments.php" class="btn btn-info">Add Equipment</a>
+            <a href="adminDashboard.php" class="btn btn-info">Go Back</a>
+            </div>
         </div>
         <?php if ($result->num_rows > 0) { // Check if the query returned any rows 
         ?>

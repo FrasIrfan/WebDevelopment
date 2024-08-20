@@ -2,7 +2,8 @@
 include "config.php";  // Using database connection file here
 
 session_start();
-$currentUserId = $_SESSION['username'];
+$currentUserId = $_SESSION['userid'];
+print_r($currentUserId);
 
 // Fetch the user type of the current logged-in user
 ini_set('display_errors', 1);

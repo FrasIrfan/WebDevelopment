@@ -5,6 +5,9 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 session_start();
+// print_r($_SESSION['username']);
+// print_r($_SESSION);
+// $CreatedBy = $_SESSION['username'];
 // Include the database configuration file to establish a database connection
 include 'config.php';
 
@@ -34,14 +37,15 @@ $result = $mysqli->query($sql);
 <body>
     <div class="container mt-5">
 
-        <div class="d-flex justify-content-between align-items-center">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
             <h2>User List</h2>
-            <a href="addUser.php" class="btn btn-info">Add User</a>
+            <div>
+                <a href="addUser.php" class="btn btn-info">Add User</a>
+                <a href="adminDashboard.php" class="btn btn-info">Go Back</a>
+            </div>
         </div>
-        <div class="d-flex justify-content-between align-items-center">
-            <!-- <h2>User List</h2> -->
-            <a href="adminDashboard.php" class="btn btn-info">Go Back</a>
-        </div>
+
         <?php if ($result->num_rows > 0) { // Check if the query returned any rows 
         ?>
             <!-- Create a table to display the user list with Bootstrap classes for styling -->

@@ -12,7 +12,7 @@ if ($mysqli->connect_error) {
     die("Connection failed: " . $mysqli->connect_error);
 }
 
-$sql = "SELECT Users.username, Users.ID, Attendances.Status, Attendances.Date
+$sql = "SELECT Users.username, Users.ID, Attendances.Status, Attendances.AttendanceDate
         FROM Attendances
         JOIN Users ON Attendances.UserID = Users.ID";
 
@@ -35,7 +35,11 @@ $result = $mysqli->query($sql);
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center">
             <h2>Attendance Sheet</h2>
-            <a href="attendance.php" class="btn btn-info">Add Attendance</a>
+            <div>
+                <a href="markAttendance.php" class="btn btn-info">Add Attendance</a>
+                <a href="markAttendance.php" class="btn btn-info">Go Back</a>
+            </div>                         
+
         </div>
         <?php if ($result && $result->num_rows > 0) { // Check if the query returned any rows 
         ?>
@@ -61,7 +65,7 @@ $result = $mysqli->query($sql);
                             <td><?= $row['ID'] ?></td>
 
                             <td><?= $row['Status'] ?></td>
-                            <td><?= $row['Date'] ?></td>
+                            <td><?= $row['AttendanceDate'] ?></td>
                         </tr>
                     <?php }
                     ?>
