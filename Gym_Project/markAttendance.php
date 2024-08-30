@@ -7,23 +7,21 @@ error_reporting(E_ALL);
 
 session_start();
 $currentUserId = $_SESSION['userid'];
-// print_r($_SESSION);
-print_r($currentUserId);  // Get the currently logged-in user's username
 
-// Check if the user ID is available in the session
 if (!$currentUserId) {
     echo "User not logged in.";
     exit();
 }
 
+// Get today's date
+$today = date('Y-m-d');
 
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Initialize variables and check for each field's presence
-    $attendanceDate = isset($_POST['Date']) ? $_POST['Date'] : null;
-    $status = isset($_POST['Status']) ? $_POST['Status'] : null;
+    $attendanceDate = $today; // Always use today's date
+    $status = isset($_POST['Status']) ? $_POST['Status'] : '';
 
-    if (!empty($attendanceDate) && !empty($status)) {
+    if (!empty($status)) {
         // Check if an attendance record already exists for the user on the given date
         $check_sql = "SELECT * FROM Attendances WHERE UserID = '$currentUserId' AND AttendanceDate = '$attendanceDate'";
         $check_result = $mysqli->query($check_sql);
@@ -31,12 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (!$check_result) {
             echo "Error checking attendance: " . $mysqli->error;
         } else if ($check_result->num_rows > 0) {
-            // Record already exists
+            // Record already exists, so display a message indicating that attendance is already marked
             echo "<div class='alert alert-warning' role='alert'>";
-            echo "Attendance for this date already exists.";
+            echo "Attendance is already marked.";
             echo "</div>";
         } else {
-            // SQL to insert data
+            // SQL to insert data with the selected status
             $sql = "INSERT INTO Attendances (UserID, AttendanceDate, Status) VALUES ('$currentUserId', '$attendanceDate', '$status')";
 
             // Execute the query
@@ -54,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -67,10 +66,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="container mt-5">
         <h2>Mark Attendance</h2>
+        <p class="alert alert-info">Please note: If you do not mark your attendance today, you will be automatically marked as "Absent".</p>
         <form method="POST" action="markAttendance.php">
             <div class="mb-3">
                 <label for="Date" class="form-label">Date</label>
-                <input type="date" name="Date" id="Date" class="form-control" required>
+                <input type="date" name="Date" id="Date" class="form-control" value="<?php echo "$today"; ?>" readonly>
             </div>
 
             <div class="mb-3">
@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <select name="Status" id="Status" class="form-control" required>
                     <option value="">Select Status</option>
                     <option value="Present">Present</option>
-                    <option value="Absent">Absent</option>
+                    <!-- <option value="Absent">Absent</option> -->
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Mark Attendance</button>

@@ -44,11 +44,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $PayerAmount = $_POST['PayerAmount'] ?? '';
     $PaymentMethod = $_POST['PaymentMethod'] ?? '';
     $PaymentRecievedBy = $userType;
+    $PaymentStatus = $_POST['PaymentStatus'] ?? '';
 
     $targetFilePath = '';
     // Check if file is uploaded
     if (isset($_FILES['PaymentProof']) && $_FILES['PaymentProof']['error'] == 0) {
-        $targetDirectory = "/opt/lampp/htdocs/Gym_Project/fileUploads/paymentProof/";
+        // $targetDirectory = "/opt/lampp/htdocs/Gym_Project/fileUploads/paymentProof/";
+        $targetDirectory = "fileUploads/paymentProof/";
+
         $fileName = basename($_FILES['PaymentProof']['name']);
         $targetFilePath = $targetDirectory . $fileName;
         $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
@@ -88,7 +91,7 @@ AND MONTH(CreatedAt) = MONTH(CURRENT_DATE())
         echo "</div>";
     } else {
         // SQL to insert data
-        $sql = "INSERT INTO Payments (PaidBy, PayerAmount, PaymentMethod, PaymentRecievedBy, PaymentProof) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO Payments (PaidBy, PayerAmount, PaymentMethod, PaymentRecievedBy, PaymentProof, PaymentStatus) VALUES (?, ?, ?, ?, ?, 'pending')";
 
         // Prepare statement
         $statement = $mysqli->prepare($sql);
@@ -104,7 +107,7 @@ AND MONTH(CreatedAt) = MONTH(CURRENT_DATE())
                 $PayerAmount,
                 $PaymentMethod,
                 $PaymentRecievedBy,
-                $targetFilePath
+                $targetFilePath,
             );
 
             if ($statement->execute()) {
@@ -167,17 +170,17 @@ $mysqli->close();
                     <option value="online">Online</option>
                 </select>
             </div>
-            <!-- <div class="mb-3">
+            <div class="mb-3">
                 <label for="PaymentRecievedBy" class="form-label">Payment Received By</label>
                 <select class="form-select" aria-label="Default select example" id="PaymentRecievedBy" name="PaymentRecievedBy" required>
                     <option value="" selected disabled>Open this select menu</option>
                     <option value="Owner">Owner</option>
                     <option value="Trainer">Trainer</option>
                 </select>
-            </div> -->
+            </div>
             <div class="mb-3">
                 <label for="PaymentProof" class="form-label">Payment Proof</label>
-                <input type="file" class="form-control" id="PaymentProof" name="PaymentProof">
+                <input type="file" class="form-control" id="PaymentProof" name="PaymentProof" required>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

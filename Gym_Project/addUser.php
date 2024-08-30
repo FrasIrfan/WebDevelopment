@@ -3,19 +3,12 @@ include "config.php";  // Using database connection file here
 
 session_start();
 $currentUserId = $_SESSION['userid'];
-print_r($currentUserId);
+// print_r($currentUserId);
 
-// Fetch the user type of the current logged-in user
+// Display errors for debugging
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
-// $createdBy = null;
-// $sqlUserType = "SELECT username FROM Users WHERE ID = ?";
-// $stmtUserType = $mysqli->prepare($sqlUserType);
-// $stmtUserType->bind_param("i", $currentUserId);
-// $stmtUserType->execute();
-// $resultUserType = $stmtUserType->get_result();
 
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -31,45 +24,88 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Ensure required fields are filled
     if ($fname && $lname && $phone && $email && $username && $password && $userType && $createdBy !== null) {
-        // SQL to insert data
-        $sql = "INSERT INTO Users (fname, lname, phone, email, username, password, userType , CreatedBy) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        // Check if email already used
+        $sqlCheckEmail = "SELECT ID FROM Users WHERE email = ?";
+        $CheckEmail = $mysqli->prepare($sqlCheckEmail);
+        $CheckEmail->bind_param("s", $email);
+        $CheckEmail->execute();
+        $CheckEmail->store_result();
 
-        // Prepare statement with mysqli
-        $statement = $mysqli->prepare($sql);
-
-        if ($statement === false) {
-            echo "Error preparing statement: " . $mysqli->error;
+        if ($CheckEmail->num_rows > 0) {
+            // Email already used
+            echo "<div class='alert alert-danger' role='alert'>";
+            echo "Email already used! Use another email.";
+            echo "</div>";
         } else {
-            // Bind parameters and execute statement
-            $statement->bind_param(
-                "sssssssi",
-                $fname,       // String
-                $lname,       // String
-                $phone,       // String
-                $email,       // String
-                $username,    // String
-                $password,    // String
-                $userType,
-                $createdBy
-                // String (ENUM)
-            );
-            // Execute statement
-            if ($statement->execute()) {
-                echo "<div class='alert alert-success' role='alert'>";
-                echo "User added successfully!";
+            // Check if phone number is already used
+            $sqlCheckPhoneNumber = "SELECT ID FROM Users WHERE phone = ?";
+            $CheckPhoneNumber = $mysqli->prepare($sqlCheckPhoneNumber);
+            $CheckPhoneNumber->bind_param("s", $phone); 
+            $CheckPhoneNumber->execute();
+            $CheckPhoneNumber->store_result();
+
+            if ($CheckPhoneNumber->num_rows > 0) {
+                echo "<div class='alert alert-danger' role='alert'>";
+                echo "This phone number is already associated with an account! Use a different phone number.";
                 echo "</div>";
             } else {
-                echo "Error: " . $statement->error;
-            }
+                // Check if the username already exists
+                $sqlCheckUsername = "SELECT ID FROM Users WHERE username = ?";
+                $CheckUsername = $mysqli->prepare($sqlCheckUsername);
+                $CheckUsername->bind_param("s", $username);
+                $CheckUsername->execute();
+                $CheckUsername->store_result();
 
-            // Close statement
-            $statement->close();
+                if ($CheckUsername->num_rows > 0) {
+                    echo "<div class='alert alert-danger' role='alert'>";
+                    echo "Username already exists! Use a different username.";
+                    echo "</div>";
+                } else {
+                    // SQL to insert data
+                    $sql = "INSERT INTO Users (fname, lname, phone, email, username, password, userType, CreatedBy) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+                    // Prepare statement with mysqli
+                    $statement = $mysqli->prepare($sql);
+
+                    if ($statement === false) {
+                        echo "Error preparing statement: " . $mysqli->error;
+                    } else {
+                        // Bind parameters and execute statement
+                        $statement->bind_param(
+                            "sssssssi",
+                            $fname,       // String
+                            $lname,       // String
+                            $phone,       // String
+                            $email,       // String
+                            $username,    // String
+                            $password,    // String
+                            $userType,    // String (ENUM)
+                            $createdBy    // Integer
+                        );
+                        // Execute statement
+                        if ($statement->execute()) {
+                            echo "<div class='alert alert-success' role='alert'>";
+                            echo "User added successfully!";
+                            echo "</div>";
+                        } else {
+                            echo "Error: " . $statement->error;
+                        }
+
+                        // Close statement
+                        $statement->close();
+                    }
+                }
+            }
         }
     } else {
+        echo "<div class='alert alert-warning' role='alert'>";
         echo "Please fill out all required fields.";
+        echo "</div>";
     }
 }
 ?>
+
+
 
 
 <!DOCTYPE html>
@@ -97,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <div class="mb-3">
                 <label for="phone" class="form-label">Phone Number</label>
-                <input type="text" class="form-control" id="phone" name="phone">
+                <input type="text" class="form-control" id="phone" name="phone" pattern="\d{11}" title="Phone number must be exactly 11 digits" required>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>

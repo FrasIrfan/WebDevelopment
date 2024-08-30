@@ -16,7 +16,7 @@ if ($mysqli->connect_error) {
 
 // SQL query to select payment details from the Payments table
 $sql = "
-    SELECT Users.username AS PaidBy, Payments.PayerAmount, Payments.PaymentMethod, Payments.PaymentRecievedBy, Payments.PaymentProof, Payments.CreatedAt
+    SELECT Payments.PaymentID AS PaymentID, Users.username AS PaidBy, Payments.PayerAmount, Payments.PaymentMethod, Payments.PaymentRecievedBy,Payments.PaymentStatus, Payments.PaymentProof, Payments.CreatedAt
     FROM Payments
     JOIN Users ON Payments.PaidBy = Users.ID
 ";
@@ -58,6 +58,8 @@ $result = $mysqli->query($sql);
                         <th>Payment Received By</th>
                         <th>Payment Proof</th>
                         <th>Created At</th>
+                        <th>Payment Status</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -70,16 +72,28 @@ $result = $mysqli->query($sql);
                             <td><?= $row['PayerAmount'] ?></td>
                             <td><?= $row['PaymentMethod'] ?></td>
                             <td><?= $row['PaymentRecievedBy'] ?></td>
+
                             <td>
                                 <?php if (!empty($row['PaymentProof'])) { ?>
                                     <!-- Display the payment proof image -->
-                                    <img src="/Gym_Project/fileUploads/paymentProof<?= $row['PaymentProof'] ?>" style="max-width: 100px; height: auto;">
+                                    <img src="<?= $row['PaymentProof'] ?>" style="max-width: 100px; height: auto;">
                                 <?php } else { ?>
-                                    No Proof Provided
+                                    echo "No Proof Provided";
                                 <?php } ?>
                             </td>
 
                             <td><?= $row['CreatedAt'] ?></td>
+                            <td><?= $row['PaymentStatus'] ?>
+                            
+                                <?php if ($row['PaymentStatus'] != 'verified') { ?>
+                                    <form method="POST" action="paymentStatus.php">
+                                        <input type="hidden" name="PaymentID" value="<?= $row['PaymentID'] ?>">
+                                        <button type="submit" class="btn btn-success btn-sm">Confirm</button>
+                                    </form>
+                                <?php } else { ?>
+                                    Confirmed
+                                <?php } ?>
+                            </td>
                         </tr>
                     <?php } ?>
                 </tbody>

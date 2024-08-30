@@ -24,6 +24,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo "Error preparing statement: " . $mysqli->error;
         } else {
             // Bind parameters and execute statement
+
+            // $statement->bind_param(
+            //     "si",            
+            //     $PackageName,     
+            //     $PackagePrice   
+            // );
             $statement->bind_param(
                 "is",            
                 $PackagePrice,   

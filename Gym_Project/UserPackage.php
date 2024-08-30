@@ -7,80 +7,71 @@ error_reporting(E_ALL);
 
 session_start();
 
-// Assuming the user is logged in, and their ID is stored in the session
 $userID = $_SESSION['userid'];
-print_r($userID);
 
-// Check if the form is submitted
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $packageID = isset($_POST['package']) ? $_POST['package'] : null;
+// Fetch current package
+$currentPackageSQL = "
+    SELECT P1.PackageName AS CurrentPackageName, P1.PackagePrice AS CurrentPackagePrice
+    FROM UserPackage UP
+    JOIN Packages P1 ON UP.PackageID = P1.PackageID
+    WHERE UP.UserID = ?
+";
 
-    if ($packageID) {
-        // Insert the selected package into the UserPackage table
-        $sql = "INSERT INTO UserPackage (UserID, PackageID) VALUES (?, ?)";
-        $statement = $mysqli->prepare($sql);
-
-        if ($statement === false) {
-            echo "Error preparing statement: " . $mysqli->error;
-        } else {
-            $statement->bind_param("ii", $userID, $packageID); // Bind user ID and package ID as integers
-
-            if ($statement->execute()) {
-                echo "<div class='alert alert-success' role='alert'>";
-                echo "Package selected succesfully!";
-                echo "</div>";
-            } else {
-                echo "Error: " . $statement->error;
-            }
-
-            $statement->close();
-        }
-    } else {
-        echo "Please select a package.";
-    }
-}
+$currentPackageStatement = $mysqli->prepare($currentPackageSQL);
+$currentPackageStatement->bind_param("i", $userID);
+$currentPackageStatement->execute();
+$currentPackageResult = $currentPackageStatement->get_result();
+$currentPackage = $currentPackageResult->fetch_assoc();
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Select Package</title>
+    <title>Current Package Information</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
     <div class="container mt-5">
-        <h2>Select Package</h2>
-        <form method="POST" action="UserPackage.php">
-            <div class="mb-3">
-                <label for="package" class="form-label">Select Package</label>
-                <select name="package" id="package" class="form-control" required>
-                    <option value="">Select a package</option>
-                    <?php
-                    // Fetch packages from the Packages table
-                    $result = $mysqli->query("SELECT PackageID, PackageName,PackagePrice FROM Packages");
-
-                    if ($result) {
-                        while ($row = $result->fetch_assoc()) {
-                            echo "<option value='" . $row['PackageID'] . "'>" . $row['PackageName'] . "  " . $row['PackagePrice']. "Rs".  "</option>";
-                        }
-                    } else {
-                        echo "<option value=''>No packages available</option>";
-                    }
-                    ?>
-                </select>
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3 class="card-title mb-0">Your Current Package</h3>
             </div>
-            <button type="submit" class="btn btn-primary">Save Package</button>
-        </form>
-        <!-- <div class="mt-3">
-            <a href="readPackages.php" class="btn btn-secondary">See Selected Packages</a>
-        </div> -->
+            <div class="card-body">
+                <?php if ($currentPackage): ?>
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Package Name</th>
+                            <td><?php echo htmlspecialchars($currentPackage['CurrentPackageName']); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Package Price</th>
+                            <td><?php echo htmlspecialchars($currentPackage['CurrentPackagePrice']); ?> Rs</td>
+                        </tr>
+                    </table>
+                <?php else: ?>
+                    <div class="alert alert-warning" role="alert">
+                        You have not selected a package yet.
+                    </div>
+                <?php endif; ?>
+            </div>
+            <div class="card-footer text-muted">
+                <a href="selectPackage.php" class="btn btn-secondary">Select a Package</a>
+                <span class="ml-3">Note: you can change your package after 30 days</span>
+            </div>
+
+        </div>
+        <div class="mt-3">
+            <a href="userDashboard.php" class="btn btn-primary">Go Back</a>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

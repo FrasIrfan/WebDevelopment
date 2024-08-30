@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $_SESSION['username'] = $user['username'];
                     // echo "Access denied: You are not an owner.";
                     // print_r($_SESSION);
-                    header("Location: userDashboard.php");
+                    header("Location: paynow.php");
                 }
 
             } else {

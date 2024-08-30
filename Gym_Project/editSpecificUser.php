@@ -54,11 +54,11 @@ $result = $mysqli->query($query);
 
 if ($result && $result->num_rows > 0) {
     $user = $result->fetch_assoc();
-    $fname = htmlspecialchars($user['fname']);
-    $lname = htmlspecialchars($user['lname']);
-    $phone = htmlspecialchars($user['phone']);
-    $email = htmlspecialchars($user['email']);
-    $username = htmlspecialchars($user['username']);
+    $fname = $user['fname'];
+    $lname = $user['lname'];
+    $phone = $user['phone'];
+    $email = $user['email'];
+    $username = $user['username'];
 } else {
     die("User not found.");
 }
@@ -81,23 +81,23 @@ $mysqli->close();
         <form method="post">
             <div class="mb-3">
                 <label for="fname" class="form-label">First Name</label>
-                <input type="text" class="form-control" id="fname" name="fname" value="<?= htmlspecialchars($fname) ?>" required>
+                <input type="text" class="form-control" id="fname" name="fname" value="<?= $fname ?>" required>
             </div>
             <div class="mb-3">
                 <label for="lname" class="form-label">Last Name</label>
-                <input type="text" class="form-control" id="lname" name="lname" value="<?= htmlspecialchars($lname) ?>" required>
+                <input type="text" class="form-control" id="lname" name="lname" value="<?= $lname ?>" required>
             </div>
             <div class="mb-3">
                 <label for="phone" class="form-label">Phone Number</label>
-                <input type="text" class="form-control" id="phone" name="phone" value="<?= htmlspecialchars($phone) ?>" required>
+                <input type="text" class="form-control" id="phone" name="phone" value="<?= $phone ?>" required>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" value="<?= htmlspecialchars($email) ?>" required>
+                <input type="email" class="form-control" id="email" name="email" value="<?= $email ?>" required>
             </div>
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="username" name="username" value="<?= htmlspecialchars($username) ?>" required>
+                <input type="text" class="form-control" id="username" name="username" value="<?= $username ?>" required>
             </div>
             <button type="submit" class="btn btn-primary">Update User</button>
             <a href="userDetails.php" class="btn btn-secondary">Cancel</a>

@@ -46,8 +46,8 @@ if (!isset($_SESSION['username'])) {
                 <li><a href="/Gym_Project/userDetails.php">About me</a></li>
                 <li><a href="/Gym_Project/markAttendance.php">Mark Attendance</a></li>
                 <li><a href="/Gym_Project/paymentOfSpecificUser.php">Make Payment</a></li>
-                <li><a href="/Gym_Project/UserTimings.php">Select Timing</a></li>
-                <li><a href="/Gym_Project/UserPackage.php">Choose Package</a></li>
+                <li><a href="/Gym_Project/UserTimings.php">My Timing</a></li>
+                <li><a href="/Gym_Project/UserPackage.php">My Package</a></li>
             
 
 

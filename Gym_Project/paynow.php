@@ -8,9 +8,9 @@ include 'config.php'; // Database connection
 
 // Start a session
 session_start();
+
 // Get the current user's ID from the session
 $currentUserId = $_SESSION['userid'];
-print_r($currentUserId);
 
 // Fetch the user's current package price and payment status
 $packageDetailsSQL = "
@@ -30,6 +30,12 @@ $packageDetailsResult = $packageDetailsStmt->get_result();
 $packageDetails = $packageDetailsResult->fetch_assoc();
 $packagePrice = $packageDetails['PackagePrice'] ?? null;
 $paymentStatus = $packageDetails['PaymentStatus'] ?? 'No Payment Record';
+
+// Redirect to dashboard if payment is verified
+if ($paymentStatus === 'verified') {
+    header("Location: userDashboard.php");
+    exit();
+}
 
 // Check if the form has been submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -85,7 +91,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "You have already made a payment this month.";
         echo "</div>";
     } else {
-
         $PaymentRecievedBy = ($PaymentMethod === 'cash') ? $_POST['PaymentRecievedBy'] : NULL;
 
         // SQL to insert data
@@ -138,18 +143,23 @@ $mysqli->close();
 
 <body>
     <div class="container mt-5">
-        <h2>Payments</h2>
-        <?php if ($paymentStatus !== 'No Payment Record'): ?>
-            <div class="alert alert-info" role="alert">
-                Current Payment : <?php echo htmlspecialchars($paymentStatus); ?>
+        <h2>Pay Now to Get Access to your Account</h2>
+
+        <?php if ($paymentStatus === 'pending'): ?>
+            <div class="alert alert-warning" role="alert">
+                Please wait to get access to your account until your payment is verified.
             </div>
-        <?php else: ?>
+        <?php elseif ($paymentStatus === 'No Payment Record'): ?>
             <div class="alert alert-warning" role="alert">
                 No payment record found for the current month.
             </div>
+        <?php else: ?>
+            <div class="alert alert-info" role="alert">
+                Current Payment Status: <?php echo htmlspecialchars($paymentStatus); ?>
+            </div>
         <?php endif; ?>
 
-        <form method="POST" action="paymentOfSpecificUser.php" enctype="multipart/form-data">
+        <form method="POST" action="paynow.php" enctype="multipart/form-data">
             <!-- Payer Amount (Auto-filled and read-only) -->
             <div class="mb-3">
                 <label for="PayerAmount" class="form-label">Payer's Amount</label>
@@ -182,9 +192,9 @@ $mysqli->close();
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
 
-        <div class="mt-3">
-            <a href="userDashboard.php" class="btn btn-primary">Go back</a>
-        </div>
+        <!-- <div class="mt-3">
+            <a href="index.php" class="btn btn-primary">Go Back</a>
+        </div> -->
     </div>
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
