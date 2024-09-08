@@ -5,22 +5,26 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 session_start();
-// print_r($_SESSION['username']);
-// print_r($_SESSION);
-// $CreatedBy = $_SESSION['username'];
-// Include the database configuration file to establish a database connection
-include 'config.php';
 
-// Check if there is a connection error with the database
-// if ($mysqli->connect_error) {
-//     // Terminate the script and display the connection error
-//     die("Connection failed: " . $mysqli->connect_error);
-// }
+// Include the new Database class
+require_once 'database.php';
 
-// SQL query to select first name, last name, and email from the registrations table
-$sql = "SELECT ID,fname, lname,phone, email,username, CreatedAt,CreatedBy, UserType FROM Users WHERE UserType != 'owner'";
-// Execute the SQL query and store the result in $result
-$result = $mysqli->query($sql);
+// Create a new Database instance
+$db = new Database();
+
+// SQL query to select user data
+$sql = "SELECT ID, fname, lname, phone, email, username, CreatedAt, CreatedBy, UserType FROM Users WHERE UserType != ?";
+
+try {
+    // Execute the query using the new Database class
+    $users = $db->query($sql, ['owner']);
+} catch (Exception $e) {
+    // Handle any database errors
+    $error = "Database error: " . $e->getMessage();
+}
+
+// Close the database connection
+$db->close();
 ?>
 
 <!DOCTYPE html>
@@ -36,8 +40,6 @@ $result = $mysqli->query($sql);
 
 <body>
     <div class="container mt-5">
-
-
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2>User List</h2>
             <div>
@@ -46,12 +48,17 @@ $result = $mysqli->query($sql);
             </div>
         </div>
 
-        <?php if ($result->num_rows > 0) { // Check if the query returned any rows 
-        ?>
-            <!-- Create a table to display the user list with Bootstrap classes for styling -->
+        <?php if (isset($error)) { ?>
+            <div class="alert alert-danger" role="alert">
+                <?= $error ?>
+            </div>
+        <?php } elseif (empty($users)) { ?>
+            <div class="alert alert-warning" role="alert">
+                No users found.
+            </div>
+        <?php } else { ?>
             <table class="table table-bordered">
                 <thead>
-                    <!-- Define table headers -->
                     <tr>
                         <th>User ID</th>
                         <th>First Name</th>
@@ -61,47 +68,34 @@ $result = $mysqli->query($sql);
                         <th>Username</th>
                         <th>Created At</th>
                         <th>Created By</th>
-
                         <th>User Type</th>
-                        <!-- <th>Actions</th> -->
-                        <!--  -->
+                        <th colspan="2">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    // Loop through each row in the result set
-                    while ($row = $result->fetch_assoc()) { ?>
+                    <?php foreach ($users as $user) { ?>
                         <tr>
-                            <!-- Output the first name, last name, and email of each user -->
-                            <td><?= $row['ID'] ?></td>
-                            <td><?= $row['fname'] ?></td>
-                            <td><?= $row['lname'] ?></td>
-                            <td><?= $row['phone'] ?></td>
-                            <td><?= $row['email'] ?></td>
-                            <td><?= $row['username'] ?></td>
-                            <td><?= $row['CreatedAt'] ?></td>
-                            <td><?= $row['CreatedBy'] ?></td>
-                            <td><?= $row['UserType'] ?></td>
+                            <td><?= $user['ID'] ?></td>
+                            <td><?= $user['fname'] ?></td>
+                            <td><?= $user['lname'] ?></td>
+                            <td><?= $user['phone'] ?></td>
+                            <td><?= $user['email'] ?></td>
+                            <td><?= $user['username'] ?></td>
+                            <td><?= $user['CreatedAt'] ?></td>
+                            <td><?= $user['CreatedBy'] ?></td>
+                            <td><?= $user['UserType'] ?></td>
                             <td>
-                                <a href="editUser.php?id=<?= $row['ID'] ?>" class="btn btn-primary btn-sm">Edit</a>
+                                <a href="editUser.php?id=<?= $user['ID'] ?>" class="btn btn-primary btn-sm">Edit</a>
                             </td>
                             <td>
-                                <a href="deleteUser.php?id=<?= $row['ID'] ?>" class="btn btn-danger btn-sm">Remove</a>
+                                <a href="deleteUser.php?id=<?= $user['ID'] ?>" class="btn btn-danger btn-sm">Remove</a>
                             </td>
-
                         </tr>
                     <?php } ?>
                 </tbody>
             </table>
-        <?php } else { // If no rows were returned, display a message indicating no users found 
-        ?>
-            <div class="alert alert-warning" role="alert">
-                No users found.
-            </div>
         <?php } ?>
-
     </div>
-
 
     <!-- Include Bootstrap's JavaScript and jQuery libraries for interactive components -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -110,7 +104,3 @@ $result = $mysqli->query($sql);
 </body>
 
 </html>
-<?php
-// Close the database connection to free up resources
-$mysqli->close();
-?>
