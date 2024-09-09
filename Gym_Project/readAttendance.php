@@ -5,19 +5,28 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 session_start();
-include 'config.php';
 
-// Check if there is a connection error with the database
-if ($mysqli->connect_error) {
-    die("Connection failed: " . $mysqli->connect_error);
-}
+// Include the new Database class
+require_once 'database.php';
 
+// Create a new Database instance
+$db = new Database();
+
+// SQL query to select attendance data
 $sql = "SELECT Users.username, Users.ID, Attendances.Status, Attendances.AttendanceDate
         FROM Attendances
         JOIN Users ON Attendances.UserID = Users.ID";
 
-// Execute the SQL query and store the result in $result
-$result = $mysqli->query($sql);
+try {
+    // Execute the query using the new Database class
+    $attendance = $db->query($sql);
+} catch (Exception $e) {
+    // Handle any database errors
+    $error = "Database error: " . $e->getMessage();
+}
+
+// Close the database connection
+$db->close();
 ?>
 
 <!DOCTYPE html>
@@ -33,50 +42,46 @@ $result = $mysqli->query($sql);
 
 <body>
     <div class="container mt-5">
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-between align-items-center mb-3">
             <h2>Attendance Sheet</h2>
             <div>
                 <a href="markAttendance.php" class="btn btn-info">Add Attendance</a>
                 <a href="adminDashboard.php" class="btn btn-info">Go Back</a>
-            </div>                         
-
+            </div>
         </div>
-        <?php if ($result && $result->num_rows > 0) { // Check if the query returned any rows 
-        ?>
-            <!-- Create a table to display the user list with Bootstrap classes for styling -->
+
+        <?php if (isset($error)) { ?>
+            <div class="alert alert-danger" role="alert">
+                <?= $error ?>
+            </div>
+        <?php }
+        elseif (empty($attendance)) { ?>
+            <div class="alert alert-warning" role="alert">
+                No attendance records found.
+            </div>
+        <?php }
+        else { ?>
             <table class="table table-bordered">
                 <thead>
-                    <!-- Define table headers -->
                     <tr>
-                        <th>Attendance of</th>
-                        <th>UserID</th>
-
-                        <th>Attendance Status</th>
+                        <th>Username</th>
+                        <th>User ID</th>
+                        <th>Status</th>
                         <th>Date</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    // Loop through each row in the result set
-                    while ($row = $result->fetch_assoc()) { ?>
+                    <?php foreach ($attendance as $row) { ?>
                         <tr>
-
-                            <td><?= $row['username'] ?></td>
-                            <td><?= $row['ID'] ?></td>
-
-                            <td><?= $row['Status'] ?></td>
-                            <td><?= $row['AttendanceDate'] ?></td>
+                            <td><?= htmlspecialchars($row['username']) ?></td>
+                            <td><?= htmlspecialchars($row['ID']) ?></td>
+                            <td><?= htmlspecialchars($row['Status']) ?></td>
+                            <td><?= htmlspecialchars($row['AttendanceDate']) ?></td>
                         </tr>
-                    <?php }
-                    ?>
+                    <?php } ?>
                 </tbody>
             </table>
-        <?php } else { ?>
-            <div class="alert alert-warning" role="alert">
-                No attendance records found.
-            </div>
         <?php } ?>
-
     </div>
 
     <!-- Include Bootstrap's JavaScript and jQuery libraries for interactive components -->
@@ -86,7 +91,3 @@ $result = $mysqli->query($sql);
 </body>
 
 </html>
-<?php
-// Close the database connection to free up resources
-$mysqli->close();
-?>
