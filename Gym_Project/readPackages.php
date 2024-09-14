@@ -4,20 +4,22 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Include the database configuration file to establish a database connection
-include 'config.php';
-session_start();
+require_once 'database.php';
 
-// Check if there is a connection error with the database
-if ($mysqli->connect_error) {
-    // Terminate the script and display the connection error
-    die("Connection failed: " . $mysqli->connect_error);
-}
+$db = new Database();
 
-// SQL query to select first name, last name, and email from the registrations table
+// SQL query to select package details
 $sql = "SELECT PackageName, PackagePrice, CreatedAt FROM Packages";
-// Execute the SQL query and store the result in $result
-$result = $mysqli->query($sql);
+
+try {
+    // Execute the query using the new Database class
+    $result = $db->query($sql); // Assuming this returns an array
+} catch (Exception $e) {
+    // Handle any database errors
+    $error = "Database error: " . $e->getMessage();
+}
+$db->close();
+
 ?>
 
 <!DOCTYPE html>
@@ -40,9 +42,12 @@ $result = $mysqli->query($sql);
                 <a href="adminDashboard.php" class="btn btn-info">Go Back</a>
             </div>
         </div>
-        <?php if ($result->num_rows > 0) { // Check if the query returned any rows 
-        ?>
-            <!-- Create a table to display the user list with Bootstrap classes for styling -->
+        <?php if (isset($error)) { ?>
+            <div class="alert alert-danger" role="alert">
+                <?= htmlspecialchars($error) ?>
+            </div>
+        <?php } elseif (count($result) > 0) { ?>
+            <!-- Create a table to display the package list with Bootstrap classes for styling -->
             <table class="table table-bordered">
                 <thead>
                     <!-- Define table headers -->
@@ -50,39 +55,30 @@ $result = $mysqli->query($sql);
                         <th>Package Name</th>
                         <th>Package Price</th>
                         <th>Updated at</th>
-
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    // Loop through each row in the result set
-                    while ($row = $result->fetch_assoc()) { ?>
+                    <?php foreach ($result as $record) { ?>
                         <tr>
-                            <!-- Output the first name, last name, and email of each user -->
-                            <td><?= $row['PackageName'] ?></td>
-                            <td><?= $row['PackagePrice'] ?></td>
-                            <td><?= $row['CreatedAt'] ?></td>
-
+                            <!-- Output the package name, price, and created at date -->
+                            <td><?= htmlspecialchars($record['PackageName']) ?></td>
+                            <td><?= htmlspecialchars($record['PackagePrice']) ?></td>
+                            <td><?= htmlspecialchars($record['CreatedAt']) ?></td>
                         </tr>
                     <?php } ?>
                 </tbody>
             </table>
-        <?php } else { // If no rows were returned, display a message indicating no users found 
-        ?>
+        <?php } else { ?>
             <div class="alert alert-warning" role="alert">
                 No Packages found.
             </div>
         <?php } ?>
-    </div>
 
-    <!-- Include Bootstrap's JavaScript and jQuery libraries for interactive components -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <!-- Include Bootstrap's JavaScript and jQuery libraries for interactive components -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </div>
 </body>
 
 </html>
-<?php
-// Close the database connection to free up resources
-$mysqli->close();
-?></table>
