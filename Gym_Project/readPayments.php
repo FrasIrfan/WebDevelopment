@@ -4,24 +4,31 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Include the database configuration file to establish a database connection
-include 'config.php';
 session_start();
 
-// Check if there is a connection error with the database
-if ($mysqli->connect_error) {
-    // Terminate the script and display the connection error
-    die("Connection failed: " . $mysqli->connect_error);
-}
+// Include the new Database class
+require_once 'database.php';
+
+// Create a new Database instance
+$db = new Database();
 
 // SQL query to select payment details from the Payments table
 $sql = "
-    SELECT Payments.PaymentID AS PaymentID, Users.username AS PaidBy, Payments.PayerAmount, Payments.PaymentMethod, Payments.PaymentRecievedBy,Payments.PaymentStatus, Payments.PaymentProof, Payments.CreatedAt
+    SELECT Payments.PaymentID AS PaymentID, Users.username AS PaidBy, Payments.PayerAmount, Payments.PaymentMethod, Payments.PaymentRecievedBy, Payments.PaymentStatus, Payments.PaymentProof, Payments.CreatedAt
     FROM Payments
     JOIN Users ON Payments.PaidBy = Users.ID
 ";
-// Execute the SQL query and store the result in $result
-$result = $mysqli->query($sql);
+
+try {
+    // Execute the query and fetch results as an associative array
+    $payments = $db->query($sql);
+} catch (Exception $e) {
+    // Handle any database errors
+    $error = "Database error: " . $e->getMessage();
+}
+
+// Close the database connection
+$db->close();
 ?>
 
 <!DOCTYPE html>
@@ -45,12 +52,19 @@ $result = $mysqli->query($sql);
             </div>
         </div>
 
-        <?php if ($result->num_rows > 0) { // Check if the query returned any rows 
-        ?>
-            <!-- Create a table to display the payment list with Bootstrap classes for styling -->
+        <?php if (isset($error)) { ?>
+            <div class="alert alert-danger" role="alert">
+                <?= htmlspecialchars($error) ?>
+            </div>
+        <?php }
+        elseif (empty($payments)) { ?>
+            <div class="alert alert-warning" role="alert">
+                No Payments found.
+            </div>
+        <?php }
+        else { ?>
             <table class="table table-bordered">
                 <thead>
-                    <!-- Define table headers -->
                     <tr>
                         <th>Paid By</th>
                         <th>Payer Amount</th>
@@ -59,35 +73,30 @@ $result = $mysqli->query($sql);
                         <th>Payment Proof</th>
                         <th>Created At</th>
                         <th>Payment Status</th>
-                        
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    // Loop through each row in the result set
-                    while ($row = $result->fetch_assoc()) { ?>
+                    <?php foreach ($payments as $payment) { ?>
                         <tr>
-                            <!-- Output the payment details -->
-                            <td><?= $row['PaidBy'] ?></td>
-                            <td><?= $row['PayerAmount'] ?></td>
-                            <td><?= $row['PaymentMethod'] ?></td>
-                            <td><?= $row['PaymentRecievedBy'] ?></td>
+                            <td><?= htmlspecialchars($payment['PaidBy']) ?></td>
+                            <td><?= htmlspecialchars($payment['PayerAmount']) ?></td>
+                            <td><?= htmlspecialchars($payment['PaymentMethod']) ?></td>
+                            <td><?= htmlspecialchars($payment['PaymentRecievedBy']) ?></td>
 
                             <td>
-                                <?php if (!empty($row['PaymentProof'])) { ?>
-                                    <!-- Display the payment proof image -->
-                                    <img src="<?= $row['PaymentProof'] ?>" style="max-width: 100px; height: auto;">
+                                <?php if (!empty($payment['PaymentProof'])) { ?>
+                                    <img src="<?= htmlspecialchars($payment['PaymentProof']) ?>" style="max-width: 100px; height: auto;">
                                 <?php } else { ?>
-                                    echo "No Proof Provided";
+                                    No Proof Provided
                                 <?php } ?>
                             </td>
 
-                            <td><?= $row['CreatedAt'] ?></td>
-                            <td><?= $row['PaymentStatus'] ?>
-                            
-                                <?php if ($row['PaymentStatus'] != 'verified') { ?>
-                                    <form method="POST" action="paymentStatus.php">
-                                        <input type="hidden" name="PaymentID" value="<?= $row['PaymentID'] ?>">
+                            <td><?= htmlspecialchars($payment['CreatedAt']) ?></td>
+                            <td>
+                                <?= htmlspecialchars($payment['PaymentStatus']) ?>
+                                <?php if ($payment['PaymentStatus'] != 'verified') { ?>
+                                    <form method="POST" action="paymentStatus.php" style="display:inline;">
+                                        <input type="hidden" name="PaymentID" value="<?= htmlspecialchars($payment['PaymentID']) ?>">
                                         <button type="submit" class="btn btn-success btn-sm">Confirm</button>
                                     </form>
                                 <?php } else { ?>
@@ -98,11 +107,6 @@ $result = $mysqli->query($sql);
                     <?php } ?>
                 </tbody>
             </table>
-        <?php } else { // If no rows were returned, display a message indicating no payments found 
-        ?>
-            <div class="alert alert-warning" role="alert">
-                No Payments found.
-            </div>
         <?php } ?>
     </div>
 
@@ -113,7 +117,3 @@ $result = $mysqli->query($sql);
 </body>
 
 </html>
-<?php
-// Close the database connection to free up resources
-$mysqli->close();
-?>
