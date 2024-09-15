@@ -4,20 +4,22 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Include the database configuration file to establish a database connection
-include 'config.php';
 session_start();
 
-// Check if there is a connection error with the database
-if ($mysqli->connect_error) {
-    // Terminate the script and display the connection error
-    die("Connection failed: " . $mysqli->connect_error);
-} 
+require_once 'database.php';
 
-// SQL query to select first name, last name, and email from the registrations table
+$db = new Database();
+
+// SQL query to select shifts and timings from the Timings table
 $sql = "SELECT Shifts, startTime, endTime FROM Timings";
-// Execute the SQL query and store the result in $result
-$result = $mysqli->query($sql);
+
+try {
+    $timings = $db->query($sql); // Assuming this returns an array
+} catch (Exception $e) {
+    $error = "Database error: " . $e->getMessage();
+}
+
+$db->close();
 ?>
 
 <!DOCTYPE html>
@@ -36,51 +38,48 @@ $result = $mysqli->query($sql);
         <div class="d-flex justify-content-between align-items-center">
             <h2>Timings</h2>
             <div>
-            <a href="timings.php" class="btn btn-info">Update Timings</a>
-            <a href="adminDashboard.php" class="btn btn-info">Go Back</a>
+                <a href="timings.php" class="btn btn-info">Update Timings</a>
+                <a href="adminDashboard.php" class="btn btn-info">Go Back</a>
             </div>
         </div>
-        <?php if ($result->num_rows > 0) { // Check if the query returned any rows 
-        ?>
-            <!-- Create a table to display the user list with Bootstrap classes for styling -->
+        <?php if (isset($error)) { ?>
+            <div class="alert alert-danger" role="alert">
+                <?= htmlspecialchars($error) ?>
+            </div>
+        <?php } elseif (empty($timings)) { ?>
+            <div class="alert alert-warning" role="alert">
+                No timings found.
+            </div>
+        <?php } else { ?>
+            <!-- Create a table to display the timings with Bootstrap classes for styling -->
             <table class="table table-bordered mt-3">
                 <thead>
                     <!-- Define table headers -->
                     <tr>
                         <th>Shift</th>
                         <th>Start Time</th>
-                        <th>Close Time</th>
+                        <th>End Time</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    // Loop through each row in the result set
-                    while ($row = $result->fetch_assoc()) {
+                    <?php foreach ($timings as $timing) {
                         // Convert startTime and endTime to DateTime objects
-                        $startTime = new DateTime($row['startTime']);
-                        $endTime = new DateTime($row['endTime']);
+                        $startTime = new DateTime($timing['startTime']);
+                        $endTime = new DateTime($timing['endTime']);
 
                         // Format the times to AM/PM format
                         $formattedStartTime = $startTime->format('h:i A');
                         $formattedEndTime = $endTime->format('h:i A');
                     ?>
                         <tr>
-                            <td><?= $row['Shifts']?></td>
-                            <td><?= $formattedStartTime ?></td>
-                            <td><?= $formattedEndTime ?></td>
+                            <td><?= htmlspecialchars($timing['Shifts']) ?></td>
+                            <td><?= htmlspecialchars($formattedStartTime) ?></td>
+                            <td><?= htmlspecialchars($formattedEndTime) ?></td>
                         </tr>
                     <?php } ?>
                 </tbody>
             </table>
-        <?php
-        } else { // If no rows were returned, display a message indicating no users found 
-        ?>
-            <div class="alert alert-warning mt-3" role="alert">
-                Timings will be updated soon.
-            </div>
-        <?php
-        } ?>
-
+        <?php } ?>
     </div>
 
     <!-- Include Bootstrap's JavaScript and jQuery libraries for interactive components -->
@@ -90,7 +89,3 @@ $result = $mysqli->query($sql);
 </body>
 
 </html>
-<?php
-// Close the database connection to free up resources
-$mysqli->close();
-?>
