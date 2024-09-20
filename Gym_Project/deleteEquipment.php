@@ -24,7 +24,7 @@ if (isset($_GET['id'])) {
         $stmt->bind_param("i", $equipmentId);
         if ($stmt->execute()) {
             // Redirect to the equipment list page after successful deletion
-            header('Location: readEquipments.php');
+            header('Location: readEquipment.php');
             exit();
         } else {
             echo "<div class='alert alert-danger'>Failed to delete equipment. Please try again.</div>";
