@@ -45,7 +45,7 @@ $db->close();
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2>Attendance Sheet</h2>
             <div>
-                <a href="markAttendance.php" class="btn btn-info">Add Attendance</a>
+                <!-- <a href="markAttendance.php" class="btn btn-info">Add Attendance</a> -->
                 <a href="adminDashboard.php" class="btn btn-info">Go Back</a>
             </div>
         </div>
