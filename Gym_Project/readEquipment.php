@@ -52,7 +52,7 @@ $db->close();
             <div class="alert alert-danger" role="alert">
                 <?= $error ?>
             </div>
-        <?php } elseif (empty($equipment)) { ?>
+        <?php } elseif (empty($equipments)) { ?>
             <div class="alert alert-warning" role="alert">
                 No Equipment found.
             </div>
@@ -75,7 +75,6 @@ $db->close();
                             <td><?= $equipment['EquipmentName'] ?></td>
                             <td><?= $equipment['BuyingPrice'] ?></td>
                             <td><?= $equipment['CreatedAt'] ?></td>
-                            <!-- Add an Edit button linking to the edit page with the equipment ID -->
                             <td>
                                 <a href="editEquipment.php?id=<?= $equipment['EquipmentID'] ?>" class="btn btn-primary btn-sm">Edit</a>
                             </td>
