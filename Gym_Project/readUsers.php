@@ -67,7 +67,7 @@ $db->close();
                         <th>Email</th>
                         <th>Username</th>
                         <th>Created At</th>
-                        <th>Created By</th>
+                        <!-- <th>Created By</th> -->
                         <th>User Type</th>
                         <th colspan="2">Actions</th>
                     </tr>
@@ -82,7 +82,6 @@ $db->close();
                             <td><?= $user['email'] ?></td>
                             <td><?= $user['username'] ?></td>
                             <td><?= $user['CreatedAt'] ?></td>
-                            <td><?= $user['CreatedBy'] ?></td>
                             <td><?= $user['UserType'] ?></td>
                             <td>
                                 <a href="editUser.php?id=<?= $user['ID'] ?>" class="btn btn-primary btn-sm">Edit</a>
