@@ -1,112 +1,54 @@
 <?php
-include "config.php";  // Using database connection file here
-
 session_start();
-$currentUserId = $_SESSION['userid'];
-// print_r($currentUserId);
+require_once 'database.php';
+require_once 'userClass.php';
+
+// Create a new Database instance
+$db = new Database();
+
+// Current user ID from the session
+$currentUserId = $_SESSION['userid'] ?? null;
+
+// Check if user ID is set
+if ($currentUserId === null) {
+    die("User ID is not set in session.");
+}
+
+// Instantiate the User class
+$user = new User($db, $currentUserId);
 
 // Display errors for debugging
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Check if the form is submitted
+$message = '';
+$messageType = ''; // 'success' or 'error'
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Initialize variables and check for each field's presence
-    $fname = isset($_POST['fname']) ? $_POST['fname'] : null;
-    $lname = isset($_POST['lname']) ? $_POST['lname'] : null;
-    $phone = isset($_POST['phone']) ? $_POST['phone'] : null;
-    $email = isset($_POST['email']) ? $_POST['email'] : null;
-    $username = isset($_POST['username']) ? $_POST['username'] : null;
+    // Get POST data and validate
+    $fname = $_POST['fname'] ?? null;
+    $lname = $_POST['lname'] ?? null;
+    $phone = $_POST['phone'] ?? null;
+    $email = $_POST['email'] ?? null;
+    $username = $_POST['username'] ?? null;
     $password = isset($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : null;
-    $userType = isset($_POST['UserType']) ? $_POST['UserType'] : null;
-    $createdBy = $currentUserId;
+    $userType = $_POST['UserType'] ?? null;
 
-    // Ensure required fields are filled
-    if ($fname && $lname && $phone && $email && $username && $password && $userType && $createdBy !== null) {
-        // Check if email already used
-        $sqlCheckEmail = "SELECT ID FROM Users WHERE email = ?";
-        $CheckEmail = $mysqli->prepare($sqlCheckEmail);
-        $CheckEmail->bind_param("s", $email);
-        $CheckEmail->execute();
-        $CheckEmail->store_result();
-
-        if ($CheckEmail->num_rows > 0) {
-            // Email already used
-            echo "<div class='alert alert-danger' role='alert'>";
-            echo "Email already used! Use another email.";
-            echo "</div>";
-        } else {
-            // Check if phone number is already used
-            $sqlCheckPhoneNumber = "SELECT ID FROM Users WHERE phone = ?";
-            $CheckPhoneNumber = $mysqli->prepare($sqlCheckPhoneNumber);
-            $CheckPhoneNumber->bind_param("s", $phone); 
-            $CheckPhoneNumber->execute();
-            $CheckPhoneNumber->store_result();
-
-            if ($CheckPhoneNumber->num_rows > 0) {
-                echo "<div class='alert alert-danger' role='alert'>";
-                echo "This phone number is already associated with an account! Use a different phone number.";
-                echo "</div>";
-            } else {
-                // Check if the username already exists
-                $sqlCheckUsername = "SELECT ID FROM Users WHERE username = ?";
-                $CheckUsername = $mysqli->prepare($sqlCheckUsername);
-                $CheckUsername->bind_param("s", $username);
-                $CheckUsername->execute();
-                $CheckUsername->store_result();
-
-                if ($CheckUsername->num_rows > 0) {
-                    echo "<div class='alert alert-danger' role='alert'>";
-                    echo "Username already exists! Use a different username.";
-                    echo "</div>";
-                } else {
-                    // SQL to insert data
-                    $sql = "INSERT INTO Users (fname, lname, phone, email, username, password, userType, CreatedBy) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-                    // Prepare statement with mysqli
-                    $statement = $mysqli->prepare($sql);
-
-                    if ($statement === false) {
-                        echo "Error preparing statement: " . $mysqli->error;
-                    } else {
-                        // Bind parameters and execute statement
-                        $statement->bind_param(
-                            "sssssssi",
-                            $fname,       // String
-                            $lname,       // String
-                            $phone,       // String
-                            $email,       // String
-                            $username,    // String
-                            $password,    // String
-                            $userType,    // String (ENUM)
-                            $createdBy    // Integer
-                        );
-                        // Execute statement
-                        if ($statement->execute()) {
-                            echo "<div class='alert alert-success' role='alert'>";
-                            echo "User added successfully!";
-                            echo "</div>";
-                        } else {
-                            echo "Error: " . $statement->error;
-                        }
-
-                        // Close statement
-                        $statement->close();
-                    }
-                }
-            }
-        }
+    // Ensure all required fields are filled
+    if ($fname && $lname && $phone && $email && $username && $password && $userType) {
+        $result = $user->addUser($fname, $lname, $phone, $email, $username, $password, $userType);
+        $message = $result['message'];
+        $messageType = $result['status']; // Ensure this is 'success' or 'error'
     } else {
-        echo "<div class='alert alert-warning' role='alert'>";
-        echo "Please fill out all required fields.";
-        echo "</div>";
+        $message = "Please fill out all required fields.";
+        $messageType = 'error';
     }
 }
+
+// Close the database connection
+$db->close();
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -122,6 +64,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="container mt-5">
         <h2>Add User</h2>
+        <?php if ($message): ?>
+            <div class="alert alert-<?= htmlspecialchars($messageType) ?>" role="alert">
+                <?= htmlspecialchars($message) ?>
+            </div>
+        <?php endif; ?>
         <form method="POST" action="addUser.php">
             <div class="mb-3">
                 <label for="fname" class="form-label">First Name</label>
@@ -151,7 +98,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label for="UserType" class="form-label">User Type</label>
                 <select name="UserType" id="UserType" class="form-control">
                     <option value="">Select a type</option>
-                    <!-- <option value="owner">Owner</option> -->
                     <option value="member">Member</option>
                     <option value="trainer">Trainer</option>
                     <option value="worker">Worker</option>
@@ -164,7 +110,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="mt-3">
             <a href="readUsers.php" class="btn btn-secondary">See all Users</a>
         </div>
-
     </div>
 
     <!-- Bootstrap JS and dependencies -->
