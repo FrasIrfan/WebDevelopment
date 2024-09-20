@@ -38,7 +38,7 @@ $db->close();
         <div class="d-flex justify-content-between align-items-center">
             <h2>Packages List</h2>
             <div>
-                <a href="packagePrice.php" class="btn btn-info">Update Package</a>
+                <a href="updatePackage.php" class="btn btn-info">Update Package</a>
                 <a href="adminDashboard.php" class="btn btn-info">Go Back</a>
             </div>
         </div>
