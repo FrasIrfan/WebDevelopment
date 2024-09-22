@@ -47,7 +47,7 @@ $db->close();
         <div class="d-flex justify-content-between align-items-center">
             <h2>Payments List</h2>
             <div>
-                <a href="payments.php" class="btn btn-info">Make a Payment</a>
+                <!-- <a href="payments.php" class="btn btn-info">Make a Payment</a> -->
                 <a href="adminDashboard.php" class="btn btn-info">Go Back</a>
             </div>
         </div>
