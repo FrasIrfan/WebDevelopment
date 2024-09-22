@@ -5,30 +5,9 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 session_start(); // Start the session
-print_r($_SESSION); // Uncomment this to debug session details
+// print_r($_SESSION); // Uncomment this to debug session details
 
-// Include the database configuration file
-include 'config.php';
-
-class Database
-{
-    private $mysqli;
-
-    public function __construct($mysqli)
-    {
-        $this->mysqli = $mysqli;
-    }
-
-    public function query($sql)
-    {
-        return $this->mysqli->query($sql);
-    }
-
-    public function close()
-    {
-        $this->mysqli->close();
-    }
-}
+require_once 'database.php';
 
 class User
 {
@@ -42,12 +21,12 @@ class User
     public function login($username, $password)
     {
         // Sanitize the inputs to prevent SQL injection
-        $username = $this->db->query("SELECT '".$username."' as username")->fetch_assoc()['username'];
+        $username = $this->db->query("SELECT '".$username."' as username")[0]['username'];
         $sql = "SELECT ID, password FROM Users WHERE username = '$username'";
         $result = $this->db->query($sql);
 
-        if ($result && $result->num_rows > 0) {
-            $row = $result->fetch_assoc();
+        if ($result && count($result) > 0) {
+            $row = $result[0];
 
             // Verify the password
             if (password_verify($password, $row['password'])) {
@@ -71,20 +50,20 @@ class User
         // Ensure the session userid is set and is an integer
         if (isset($_SESSION['userid']) && is_numeric($_SESSION['userid'])) {
             $userId = intval($_SESSION['userid']); // Cast to integer to ensure it’s safe to use in the query
-    
+
             // Query to fetch user details using session userid
             $sql = "SELECT ID, fname, lname, phone, email, username 
                     FROM Users 
                     WHERE ID = $userId";
-    
+
             $result = $this->db->query($sql);
-    
+
             // Return the user data if found
-            if ($result && $result->num_rows > 0) {
+            if ($result && count($result) > 0) {
                 return $result;
             }
         }
-    
+
         return null; // Return null if session userid is not set, invalid, or user not found
     }
 }
@@ -118,8 +97,8 @@ class UserListView
                 </div>
             </div>
 
-            <?php if ($this->users && $this->users->num_rows > 0) { 
-                $row = $this->users->fetch_assoc(); // Since only one user is fetched
+            <?php if ($this->users && count($this->users) > 0) { 
+                $row = $this->users[0]; // Since only one user is fetched
             ?>
                 <table class="table table-bordered">
                     <thead>
@@ -134,11 +113,11 @@ class UserListView
                     </thead>
                     <tbody>
                         <tr>
-                            <td><?= $row['fname'] ?></td>
-                            <td><?= $row['lname'] ?></td>
-                            <td><?= $row['phone'] ?></td>
-                            <td><?= $row['email'] ?></td>
-                            <td><?= $row['username'] ?></td>
+                            <td><?= htmlspecialchars($row['fname']) ?></td>
+                            <td><?= htmlspecialchars($row['lname']) ?></td>
+                            <td><?= htmlspecialchars($row['phone']) ?></td>
+                            <td><?= htmlspecialchars($row['email']) ?></td>
+                            <td><?= htmlspecialchars($row['username']) ?></td>
                             <td>
                                 <a href="editSpecificUser.php?id=<?= $row['ID'] ?>" class="btn btn-primary btn-sm">Edit</a>
                             </td>
@@ -161,7 +140,7 @@ class UserListView
 }
 
 // Initialize Database connection
-$db = new Database($mysqli);
+$db = new Database();
 
 // Check if the user is logging in
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset($_POST['password'])) {
