@@ -1,50 +1,22 @@
 <?php
-include "config.php";
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 session_start();
+require_once 'packageClass.php';
 
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Initialize variables and check for each field's presence
-    $PackageName = isset($_POST['PackageName']) ? $_POST['PackageName'] : null;
-    $PackagePrice = isset($_POST['PackagePrice']) ? $_POST['PackagePrice'] : null;
+    $packageName = isset($_POST['PackageName']) ? $_POST['PackageName'] : null;
+    $packagePrice = isset($_POST['PackagePrice']) ? $_POST['PackagePrice'] : null;
 
-    if (!empty($PackageName) && !empty($PackagePrice)) {
-        // SQL to update data
-        $sql = "UPDATE Packages SET PackagePrice = ? WHERE PackageName = ?";
+    $package = new Package();
+    $message = $package->updatePackage($packageName, $packagePrice);
 
-        // Prepare statement with mysqli
-        $statement = $mysqli->prepare($sql);
-
-        if ($statement === false) {
-            echo "Error preparing statement: " . $mysqli->error;
-        } else {
-            $statement->bind_param(
-                "is",            
-                $PackagePrice,   
-                $PackageName     
-            );
-
-            // Execute statement
-            if ($statement->execute()) {
-                echo "<div class='alert alert-success' role='alert'>";
-                echo "Package Updated!";
-                // echo print_r($_SESSION);
-                echo "</div>";
-            } else {
-                echo "Error: " . $statement->error;
-            }
-
-            // Close statement
-            $statement->close();
-        }
-    } else {
-        echo "Please fill out all required fields.";
-    }
+    echo "<div class='alert alert-success' role='alert'>";
+    echo $message;
+    echo "</div>";
 }
 ?>
 
