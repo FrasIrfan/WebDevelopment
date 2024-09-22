@@ -1,92 +1,75 @@
 <?php
-include "config.php";  // Using database connection file here
+include "database.php"; 
 
+// Error Reporting
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+// User Class
+class User {
+    private $db;
 
-// Fetch packages for the  dropdown
-$sql = "SELECT PackageID , PackageName, PackagePrice FROM Packages";
-$storedata = $mysqli->query($sql);
+    public function __construct(Database $db) {
+        $this->db = $db;
+    }
 
-if (!$storedata) {
-    echo "Error fetching data: " . $mysqli->error;
-    exit();
-}
+    // Register new user and assign package
+    public function registerUser($data) {
+        if ($this->validate($data)) {
+            $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
 
-// Check if the form is submitted
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Initialize variables and check for each field's presence
-    $fname = isset($_POST['fname']) ? $_POST['fname'] : null;
-    $lname = isset($_POST['lname']) ? $_POST['lname'] : null;
-    $phone = isset($_POST['phone']) ? $_POST['phone'] : null;
-    $email = isset($_POST['email']) ? $_POST['email'] : null;
-    $username = isset($_POST['username']) ? $_POST['username'] : null;
-    $password = isset($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : null;
-    $userType = isset($_POST['UserType']) ? $_POST['UserType'] : null;
-    $packageID = isset($_POST['PackageName']) ? $_POST['PackageName'] : null; // Get selected package ID
+            // Insert user data into the Users table
+            $sql = "INSERT INTO Users (fname, lname, phone, email, username, password, userType) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $this->db->query($sql, [
+                $data['fname'],
+                $data['lname'],
+                $data['phone'],
+                $data['email'],
+                $data['username'],
+                $hashedPassword,
+                $data['UserType']
+            ]);
 
+            $userID = $this->db->getLastInsertId();
 
-    // Ensure required fields are filled
-    if ($fname && $lname && $phone && $email && $username && $password && $userType !== null && $packageID !== null) {
-        // SQL to insert data
-        $sql = "INSERT INTO Users (fname, lname, phone, email, username, password, userType) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            // Insert the user's package into UserPackage table
+            $sql = "INSERT INTO UserPackage (UserID, packageID) VALUES (?, ?)";
+            $this->db->query($sql, [
+                $userID,
+                $data['PackageName']
+            ]);
 
-        // Prepare statement with mysqli
-        $statement = $mysqli->prepare($sql);
-
-        if ($statement === false) {
-            echo "Error preparing statement: " . $mysqli->error;
+            return "Signup successful and package assigned!";
         } else {
-            // Bind parameters and execute statement
-            $statement->bind_param(
-                "sssssss",
-                $fname,       // String
-                $lname,       // String
-                $phone,       // String
-                $email,       // String
-                $username,    // String
-                $password,    // String
-                $userType,    // String (ENUM)
-            );
-            // Execute statement
-            if ($statement->execute()) {
-                $UserID = $mysqli->insert_id; // Get the ID of the newly inserted user
-
-                // Now insert the package into the userpackage table
-                $sql = "INSERT INTO UserPackage (UserID, packageID) VALUES (?, ?)";
-                $statement = $mysqli->prepare($sql);
-
-                if ($statement === false) {
-                    echo "Error preparing statement: " . $mysqli->error;
-                } else {
-                    $statement->bind_param("ii", $UserID, $packageID);
-
-                    if ($statement->execute()) {
-                        echo "<div class='alert alert-success' role='alert'>";
-                        echo "Signup successful and package assigned!";
-                        echo "</div>";
-                    } else {
-                        echo "Error: " . $statement->error;
-                    }
-
-                }
-            } else {
-                echo "Error: " . $statement->error;
-            }
-
-            $statement->close();
+            throw new Exception("Please fill out all required fields.");
         }
-    } else {
-        echo "Please fill out all required fields.";
+    }
+
+    // Validate form data
+    private function validate($data) {
+        return isset($data['fname'], $data['lname'], $data['phone'], $data['email'], $data['username'], $data['password'], $data['UserType'], $data['PackageName']);
     }
 }
 
-$mysqli->close();
+// Fetch packages for the dropdown
+$db = new Database();
+$sql = "SELECT PackageID, PackageName, PackagePrice FROM Packages";
+$packages = $db->query($sql);
 
+// Check if the form is submitted
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    try {
+        $user = new User($db);
+        $message = $user->registerUser($_POST);
+        echo "<div class='alert alert-success' role='alert'>{$message}</div>";
+    } catch (Exception $e) {
+        echo "<div class='alert alert-danger' role='alert'>" . $e->getMessage() . "</div>";
+    }
+}
+
+$db->close();
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -132,9 +115,7 @@ $mysqli->close();
                 <label for="UserType" class="form-label">User Type</label>
                 <select name="UserType" id="UserType" class="form-control">
                     <option value="">Select a type</option>
-                    <!-- <option value="owner">Owner</option> -->
                     <option value="member">Member</option>
-                    <!-- <option value="trainer">Trainer</option> -->
                     <option value="worker">Worker</option>
                     <option value="janitor">Janitor</option>
                 </select>
@@ -143,11 +124,11 @@ $mysqli->close();
             <div class="mb-3">
                 <label for="PackageName" class="form-label">Select Package</label>
                 <select class="form-control" id="PackageName" name="PackageName" required>
-                <option value="">Select a Package</option>
+                    <option value="">Select a Package</option>
 
                     <?php
-                    if ($storedata->num_rows > 0) {
-                        while ($row = $storedata->fetch_assoc()) {
+                    if (!empty($packages)) {
+                        foreach ($packages as $row) {
                     ?>
                             <option value="<?= $row['PackageID']; ?>">
                                 <?= $row['PackageName'] . " " . $row['PackagePrice'] . "Rs"; ?>
@@ -160,20 +141,17 @@ $mysqli->close();
                 </select>
             </div>
 
-
             <button type="submit" class="btn btn-primary">Register</button>
-            
-            <button href="login.php" class="btn btn-primary">Login</button>
-            
         </form>
 
+        <div class="mt-3">
+            <a href="login.php" class="btn btn-primary">Login</a>
+        </div>
 
         <div class="mt-3">
             <a href="index.php" class="btn btn-secondary">Go Back</a>
         </div>
     </div>
-
-
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
