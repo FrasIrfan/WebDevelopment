@@ -39,6 +39,15 @@ class User
         return ['status' => 'success', 'message' => "User added successfully!"];
     }
 
+    public function getUserDetails()
+    {
+        $sql = "SELECT fname, lname, phone, email, username FROM Users WHERE ID = ?";
+        $params = [$this->currentUserId];
+        $result = $this->db->query($sql, $params);
+        
+        return count($result) > 0 ? $result[0] : null;
+    }
+
     private function isEmailUsed($email)
     {
         $sql = "SELECT ID FROM Users WHERE email = ?";
