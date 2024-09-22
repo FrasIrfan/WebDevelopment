@@ -4,43 +4,35 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include 'config.php';
+require_once 'database.php'; // Include your Database class
+require_once 'userClass.php'; // Include your User class
 session_start();
+
+// Initialize Database connection
+$db = new Database();
 
 // Ensure the session userid is set
 if (!isset($_SESSION['userid'])) {
     die("Session is not set. Please log in first.");
 }
 
-// Database configuration
-// $host = 'localhost';
-// $user = 'root';
-// $pass = '';
-// $dbname = 'GYM';
-
-// // Create database connection
-// $mysqli = new mysqli($host, $user, $pass, $dbname);
-
-// // Check for connection error
-// if ($mysqli->connect_error) {
-//     die("Connection failed: " . $mysqli->connect_error);
-// }
-
-// Get the current logged-in user's ID
-$userId = $_SESSION['userid'];
+// Initialize User object
+$currentUserId = $_SESSION['userid'];
+$user = new User($db, $currentUserId);
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Fetch user input directly from POST data
     $fname = $_POST['fname'];
     $lname = $_POST['lname'];
     $phone = $_POST['phone'];
     $email = $_POST['email'];
     $username = $_POST['username'];
 
-    // Execute the update query
-    $query = "UPDATE Users SET fname = '$fname', lname = '$lname', phone = '$phone', email = '$email', username = '$username' WHERE ID = $userId";
-    if ($mysqli->query($query)) {
+    // Update user details
+    $updateQuery = "UPDATE Users SET fname = ?, lname = ?, phone = ?, email = ?, username = ? WHERE ID = ?";
+    $params = [$fname, $lname, $phone, $email, $username, $currentUserId];
+
+    if ($db->query($updateQuery, $params)) {
         header('Location: userDetails.php');
         exit();
     } else {
@@ -49,22 +41,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Fetch current user details
-$query = "SELECT fname, lname, phone, email, username FROM Users WHERE ID = $userId";
-$result = $mysqli->query($query);
-
-if ($result && $result->num_rows > 0) {
-    $user = $result->fetch_assoc();
-    $fname = $user['fname'];
-    $lname = $user['lname'];
-    $phone = $user['phone'];
-    $email = $user['email'];
-    $username = $user['username'];
-} else {
+$currentUserDetails = $user->getUserDetails();
+if (!$currentUserDetails) {
     die("User not found.");
 }
 
-// Close the database connection
-$mysqli->close();
+$fname = htmlspecialchars($currentUserDetails['fname']);
+$lname = htmlspecialchars($currentUserDetails['lname']);
+$phone = htmlspecialchars($currentUserDetails['phone']);
+$email = htmlspecialchars($currentUserDetails['email']);
+$username = htmlspecialchars($currentUserDetails['username']);
 ?>
 
 <!DOCTYPE html>
@@ -109,3 +95,8 @@ $mysqli->close();
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+
+<?php
+// Close the database connection
+$db->close();
+?>
