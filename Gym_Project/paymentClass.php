@@ -12,6 +12,22 @@ class Payment
         $this->currentUserId = $currentUserId;
     }
 
+
+    public function hasAlreadyPaid($userID)
+    {
+        $sql = "
+        SELECT * FROM Payments
+        WHERE PaidBy = ?
+        AND YEAR(CreatedAt) = YEAR(CURRENT_DATE())
+        AND MONTH(CreatedAt) = MONTH(CURRENT_DATE())
+        ";
+        $result = $this->db->query($sql, [$userID]);
+        // return $result->num_rows > 0;
+    }
+
+
+
+
     // Fetch user's package price and payment status
     public function getPackageDetails()
     {
@@ -56,6 +72,24 @@ class Payment
         } catch (Exception $e) {
             return "Error adding payment: " . $e->getMessage();
         }
+    }
+
+    public function uploadPaymentProof($file)
+    {
+        if (isset($file['error']) && $file['error'] == 0) {
+            $targetDirectory = "fileUploads/paymentProof/";
+            $fileName = basename($file['name']);
+            $targetFilePath = $targetDirectory . $fileName;
+            $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+
+            $allowedTypes = array('jpg', 'png', 'jpeg', 'pdf');
+            if (in_array($fileType, $allowedTypes)) {
+                if (move_uploaded_file($file['tmp_name'], $targetFilePath)) {
+                    return $targetFilePath;
+                }
+            }
+        }
+        return null;
     }
 
     // Handle file uploads
