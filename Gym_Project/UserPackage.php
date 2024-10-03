@@ -1,5 +1,6 @@
 <?php
-include "config.php";
+require_once "database.php";
+require_once "userPackageClass.php";
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -9,19 +10,13 @@ session_start();
 
 $userID = $_SESSION['userid'];
 
-// Fetch current package
-$currentPackageSQL = "
-    SELECT P1.PackageName AS CurrentPackageName, P1.PackagePrice AS CurrentPackagePrice
-    FROM UserPackage UP
-    JOIN Packages P1 ON UP.PackageID = P1.PackageID
-    WHERE UP.UserID = ?
-";
+// Initialize database and user package objects
+$db = new Database();
+$userPackage = new UserPackage($db, $userID);
 
-$currentPackageStatement = $mysqli->prepare($currentPackageSQL);
-$currentPackageStatement->bind_param("i", $userID);
-$currentPackageStatement->execute();
-$currentPackageResult = $currentPackageStatement->get_result();
-$currentPackage = $currentPackageResult->fetch_assoc();
+// Fetching current package
+$currentPackage = $userPackage->getCurrentPackage();
+
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +36,7 @@ $currentPackage = $currentPackageResult->fetch_assoc();
                 <h3 class="card-title mb-0">Your Current Package</h3>
             </div>
             <div class="card-body">
-                <?php if ($currentPackage): ?>
+                <?php if ($currentPackage) { ?>
                     <table class="table table-striped">
                         <tr>
                             <th>Package Name</th>
@@ -49,20 +44,15 @@ $currentPackage = $currentPackageResult->fetch_assoc();
                         </tr>
                         <tr>
                             <th>Package Price</th>
-                            <td><?php echo htmlspecialchars($currentPackage['CurrentPackagePrice']); ?> Rs</td>
+                            <td>Rs <?php echo htmlspecialchars($currentPackage['CurrentPackagePrice']); ?></td>
                         </tr>
                     </table>
-                <?php else: ?>
+                <?php } else { ?>
                     <div class="alert alert-warning" role="alert">
                         You have not selected a package yet.
                     </div>
-                <?php endif; ?>
+                <?php } ?>
             </div>
-            <div class="card-footer text-muted">
-                <a href="selectPackage.php" class="btn btn-secondary">Select a Package</a>
-                <span class="ml-3">Note: you can change your package after 30 days</span>
-            </div>
-
         </div>
         <div class="mt-3">
             <a href="userDashboard.php" class="btn btn-primary">Go Back</a>
@@ -75,3 +65,8 @@ $currentPackage = $currentPackageResult->fetch_assoc();
 </body>
 
 </html>
+
+<?php
+// Close database connection
+$db->close();
+?>
