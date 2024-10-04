@@ -99,7 +99,7 @@ if (isset($_GET['id'])) {
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Update User</button>
-            <a href="readUser.php" class="btn btn-secondary">Cancel</a>
+            <a href="readUsers.php" class="btn btn-secondary">Cancel</a>
         </form>
     </div>
 
