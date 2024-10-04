@@ -35,6 +35,8 @@ $db->close();
     <title>Equipment List</title>
     <!-- Include Bootstrap CSS for responsive and styled UI components -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="info.css">
+
 </head>
 
 <body>
@@ -65,6 +67,7 @@ $db->close();
                         <th>Equipment Name</th>
                         <th>Buying Price</th>
                         <th>Added at</th>
+                        <th>Actions</th>
 
                     </tr>
                 </thead>
@@ -75,11 +78,11 @@ $db->close();
                             <td><?= $equipment['EquipmentName'] ?></td>
                             <td><?= $equipment['BuyingPrice'] ?></td>
                             <td><?= $equipment['CreatedAt'] ?></td>
-                            <td>
-                                <a href="editEquipment.php?id=<?= $equipment['EquipmentID'] ?>" class="btn btn-primary btn-sm">Edit</a>
-                            </td>
-                            <td>
-                                <a href="deleteEquipment.php?id=<?= $equipment['EquipmentID'] ?>" class="btn btn-danger btn-sm">Remove</a>
+                            <td style="width:15%;">
+                                <a href="editEquipment.php?id=<?= $equipment['EquipmentID'] ?>" class="btn btn-primary btn-sm mr-2">Edit</a>
+                            
+                            
+                                <a href="deleteEquipment.php?id=<?= $equipment['EquipmentID'] ?>" class="btn btn-danger btn-sm ">Remove</a>
                             </td>
                         </tr>
                     <?php } ?>
