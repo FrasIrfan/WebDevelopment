@@ -63,6 +63,7 @@ class User
         return ['status' => 'success', 'message' => "User added successfully!"];
     }
 
+    
 
     public function getUserDetails()
     {
