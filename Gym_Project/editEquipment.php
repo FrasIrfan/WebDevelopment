@@ -1,47 +1,38 @@
 <?php
-// Enable error reporting 
+// Enable error reporting
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Include the database configuration file
-include 'config.php';
+
+// Include the Database and EquipmentManager classes
+require_once 'database.php';
+require_once 'equipmentManagerClass.php';
+
 session_start();
 
-// Check if there is a connection error with the database
-if ($mysqli->connect_error) {
-    // Terminate the script and display the connection error
-    die("Connection failed: " . $mysqli->connect_error);
-}
+// Create an instance of the Database class
+$db = new Database();
 
 // Check if the equipment ID is provided in the URL
 if (isset($_GET['id'])) {
     $equipmentId = $_GET['id'];
+    $equipmentManager = new EquipmentManager($db, $equipmentId);
+    $equipmentManager->fetchEquipmentDetails();
 
     // Check if the form is submitted to update equipment details
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $equipmentName = $_POST['equipment_name'];
         $buyingPrice = $_POST['buying_price'];
 
-        // Prepare and execute the SQL query to update the equipment
-        $stmt = $mysqli->prepare("UPDATE Equipments SET EquipmentName = ?, BuyingPrice = ? WHERE EquipmentID = ?");
-        $stmt->bind_param("sdi", $equipmentName, $buyingPrice, $equipmentId);
-        if ($stmt->execute()) {
+        if ($equipmentManager->updateEquipment($equipmentName, $buyingPrice)) {
             echo "<div class='alert alert-success'>Equipment updated successfully.</div>";
             header('Location: readEquipment.php');
+            exit;
         } else {
             echo "<div class='alert alert-danger'>Failed to update equipment. Please try again.</div>";
         }
-        $stmt->close();
     }
-
-    // Prepare and execute the SQL query to fetch the current equipment details
-    $stmt = $mysqli->prepare("SELECT EquipmentName, BuyingPrice FROM Equipments WHERE EquipmentID = ?");
-    $stmt->bind_param("i", $equipmentId);
-    $stmt->execute();
-    $stmt->bind_result($equipmentName, $buyingPrice);
-    $stmt->fetch();
-    $stmt->close();
 } else {
     echo "<div class='alert alert-danger'>No equipment ID provided.</div>";
     exit;
@@ -65,11 +56,11 @@ if (isset($_GET['id'])) {
         <form method="post">
             <div class="form-group">
                 <label for="equipmentName">Equipment Name</label>
-                <input type="text" class="form-control" id="equipmentName" name="equipment_name" value="<?= htmlspecialchars($equipmentName) ?>" required>
+                <input type="text" class="form-control" id="equipmentName" name="equipment_name" value="<?= htmlspecialchars($equipmentManager->equipmentName) ?>" required>
             </div>
             <div class="form-group">
                 <label for="buyingPrice">Buying Price</label>
-                <input type="number" class="form-control" id="buyingPrice" name="buying_price" value="<?= htmlspecialchars($buyingPrice) ?>" required>
+                <input type="number" class="form-control" id="buyingPrice" name="buying_price" value="<?= htmlspecialchars($equipmentManager->buyingPrice) ?>" required>
             </div>
             <button type="submit" class="btn btn-primary">Update Equipment</button>
             <a href="readEquipment.php" class="btn btn-secondary">Cancel</a>
@@ -86,5 +77,5 @@ if (isset($_GET['id'])) {
 
 <?php
 // Close the database connection to free up resources
-$mysqli->close();
+$db->close();
 ?>
