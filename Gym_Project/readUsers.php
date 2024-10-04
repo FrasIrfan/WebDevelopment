@@ -36,12 +36,14 @@ $db->close();
     <title>User List</title>
     <!-- Include Bootstrap CSS for responsive and styled UI components -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="info.css">
+    
 </head>
 
 <body>
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2>User List</h2>
+            <h2>USERS LIST</h2>
             <div>
                 <a href="addUser.php" class="btn btn-info">Add User</a>
                 <a href="adminDashboard.php" class="btn btn-info">Go Back</a>
