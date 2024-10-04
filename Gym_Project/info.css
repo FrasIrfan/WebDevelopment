@@ -1,0 +1,40 @@
+    
+        html, body {
+            height: 100%; /* Ensures the body and html take the full height of the viewport */
+            margin: 0; /* Removes any default margin */
+            padding: 0; /* Removes any default padding */
+        }
+        
+        body {
+            background-image: url('image/background.jpg'); /* Path to your image */
+            background-size: cover; /* Ensures the image covers the entire background */
+            background-position: center; /* Centers the image */
+            background-repeat: no-repeat; /* Prevents image from repeating */
+            background-attachment: fixed; /* Ensures the background stays fixed while scrolling */
+        }
+        
+
+        table {
+            background-color: rgba(255, 255, 255, 0.85);
+            /* Semi-transparent white */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* Shadow */
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            color: #333;
+            /* Darker color for readability */
+            padding: 10px;
+        }
+
+        thead {
+            background-color: rgba(0, 0, 0, 0.1);
+            /* Light background for header */
+        }
+
+        h2 {
+            color: white;
+        }
