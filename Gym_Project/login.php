@@ -47,9 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // print_r($_SESSION);
                     header("Location: adminDashboard.php");
                     exit();
-                } 
-
-                else {
+                } else {
                     // Start a session and set session variables
                     $_SESSION['userid'] = $user['id'];
                     $_SESSION['username'] = $user['username'];
@@ -57,7 +55,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // print_r($_SESSION);
                     header("Location: paynow.php");
                 }
-
             } else {
                 echo "Invalid password.";
             }
@@ -80,6 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Login Form</title>
     <!-- Including Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="info.css">
 </head>
 
 <body>
@@ -97,7 +95,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit" class="btn btn-primary">Login</button>
             <!-- Button to register a new user -->
             <div class="mt-3">
-                <a href="registration.php" class="btn btn-secondary">Register New User</a>
+                <a href="registration.php" class="btn btn-primary">Register New User</a>
+            </div>
+            <div class="mt-3">
+                <a href="index.php" class="btn btn-secondary">Go Back</a>
             </div>
         </form>
     </div>
