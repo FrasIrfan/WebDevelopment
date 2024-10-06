@@ -1,40 +1,62 @@
-    
-        html, body {
-            height: 100%; /* Ensures the body and html take the full height of the viewport */
-            margin: 0; /* Removes any default margin */
-            padding: 0; /* Removes any default padding */
-        }
-        
-        body {
-            background-image: url('image/background.jpg'); /* Path to your image */
-            background-size: cover; /* Ensures the image covers the entire background */
-            background-position: center; /* Centers the image */
-            background-repeat: no-repeat; /* Prevents image from repeating */
-            background-attachment: fixed; /* Ensures the background stays fixed while scrolling */
-        }
-        
+html,
+body {
+  height: 100%; /* Ensures the body and html take the full height of the viewport */
+  margin: 0; /* Removes any default margin */
+  padding: 0; /* Removes any default padding */
+}
 
-        table {
-            background-color: rgba(255, 255, 255, 0.85);
-            /* Semi-transparent white */
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            /* Shadow */
-            margin-top: 20px;
-        }
+body {
+  color: white;
+  background-image: url("image/cover.jpg"); /* Path to your image */
+  background-size: cover; /* Ensures the image covers the entire background */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents image from repeating */
+  background-attachment: fixed; /* Ensures the background stays fixed while scrolling */
+}
 
-        th,
-        td {
-            color: #333;
-            /* Darker color for readability */
-            padding: 10px;
-        }
+table {
+  background-color: rgba(255, 255, 255, 0.85); /* Semi-transparent white */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow */
+  margin-top: 20px;
+}
 
-        thead {
-            background-color: rgba(0, 0, 0, 0.1);
-            /* Light background for header */
-        }
+th,
+td {
+  color: #333; /* Darker color for readability */
+  padding: 10px;
+}
 
-        h2 {
-            color: white;
-        }
+thead {
+  background-color: rgba(0, 0, 0, 0.1); /* Light background for header */
+}
+
+h2 {
+  color: white;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+select {
+  background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white */
+  border: none; /* Removes the default border */
+  border-radius: 5px; /* Optional: rounded corners */
+  padding: 10px; /* Add some padding */
+  color: black; /* Text color */
+  font-size: 16px; /* Font size */
+}
+
+input[type="text"]::placeholder,
+input[type="password"]::placeholder,
+input[type="email"]::placeholder {
+  color: rgba(0, 0, 0, 0.6); /* Semi-transparent placeholder color */
+}
+
+select {
+  color: black; /* Text color for select dropdown */
+}
+
+.mb-3 .form-label {
+  color: white; /* White text for the labels */
+}
