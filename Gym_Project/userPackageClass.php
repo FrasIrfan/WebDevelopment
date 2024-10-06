@@ -1,5 +1,4 @@
 <?php
-
 class UserPackage
 {
     private $db;
