@@ -4,7 +4,7 @@ body {
   color: white;
   margin: 0px;
   padding: 0px;
-  background: url("image/man_with_dumbell.jpg");
+  background: url("image/homepage1.jpg");
   background-size: cover;
   background-position: center;
   overflow: hidden;
@@ -12,10 +12,10 @@ body {
   /* vh (view-port height) represents a percentage of the height of the viewport (the visible area of a web page in the browser window). */
 }
 .left {
-    display: inline-block;
-    position: absolute;
-    width: 131px;
-    margin: 12px 9px;
+  display: inline-block;
+  position: absolute;
+  width: 131px;
+  margin: 12px 9px;
 }
 .left img {
   width: 105px;
@@ -30,7 +30,6 @@ body {
   margin: 1px 198px;
   color: white;
 }
-  
 
 .right {
   position: absolute;
@@ -41,6 +40,74 @@ body {
   width: 187px;
 }
 
+button {
+  position: relative;
+  padding: 10px 20px;
+  border-radius: 7px;
+  border: 1px solid deepskyblue;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 2px;
+  background: transparent;
+  color: #fff;
+  overflow: hidden;
+  box-shadow: 0 0 0 0 transparent;
+  transition: all 0.2s ease-in;
+}
+
+button:hover {
+  background: rgb(61, 106, 255);
+  box-shadow: 0 0 30px 5px rgba(0, 142, 236, 0.815);
+  transition: all 0.2s ease-out;
+}
+
+#login:hover {
+  background: lawngreen;
+  box-shadow: 0 0 30px 5px lawngreen;
+  transition: all 0.2s ease-out;
+}
+
+#login {
+  border: 1px solid lawngreen;
+}
+
+button:hover::before {
+  animation: sh02 0.5s 0s linear;
+}
+
+button::before {
+  content: "";
+  display: block;
+  width: 0px;
+  height: 86%;
+  position: absolute;
+  top: 7%;
+  left: 0%;
+  opacity: 0;
+  background: #fff;
+  box-shadow: 0 0 50px 30px #fff;
+  transform: skewX(-20deg);
+}
+
+@keyframes sh02 {
+  from {
+    opacity: 0;
+    left: 0%;
+  }
+  50% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    left: 100%;
+  }
+}
+
+button:active {
+  box-shadow: 0 0 0 0 transparent;
+  transition: box-shadow 0.2s ease-in;
+}
 
 .navbar {
   display: inline-block;
@@ -66,33 +133,37 @@ body {
 }
 
 .btn {
-    font-family: "Baloo Bhai 2", cursive;
-    margin: 4px;
-    background-color: black;
-    color: white;
-    font-size: larger;
-    border: solid grey;
-    border-radius: 30px;
-    cursor: pointer;
-    padding: 0px 9px;
-    text-decoration: none;
-
+  font-family: "Baloo Bhai 2", cursive;
+  margin: 2px 0px 8px 47px;
+  background-color: black;
+  color: white;
+  font-size: larger;
+  border-radius: 30px;
+  cursor: pointer;
+  padding: 0px 9px;
+  text-decoration: none;
+  width: 75%;
 }
 
 .btn:hover {
-  background-color: rgb(0, 255, 102);
+  background-color: lawngreen;
+  color: black;
+}
+
+#registration:hover {
+  /* Hover effect for the Register button */
+  background-color: deepskyblue;
   color: black;
 }
 
 .container {
-    border: 2px solid white;
-    margin: 124px 6px;
-    padding: 15px 274px 24px 70px;
-    width: 300px;
-    border-radius: 80px;
-    background: rgba(0, 0, 0, 0.45); /* semi-transparent background */
-  }
-
+  border: 2px solid white;
+  margin: 124px 6px;
+  padding: 15px 274px 24px 70px;
+  width: 300px;
+  border-radius: 80px;
+  background: rgba(0, 0, 0, 0.45); /* semi-transparent background */
+}
 
 .container button {
   display: block;
@@ -120,6 +191,3 @@ body {
   color: white;
   margin: 0;
 }
-
-
-
