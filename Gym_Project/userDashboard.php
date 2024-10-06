@@ -48,16 +48,17 @@ if (!isset($_SESSION['username'])) {
                 <li><a href="/Gym_Project/paymentOfSpecificUser.php">Make Payment</a></li>
                 <li><a href="/Gym_Project/UserTimings.php">My Timing</a></li>
                 <li><a href="/Gym_Project/UserPackage.php">My Package</a></li>
-            
+
 
 
             </ul>
         </div>
 
         <!-- right box for buttons  -->
-        <div class="right">
-            <a href="logout.php" class="btn">Logout</a>
-            <!-- <a href="registration.php" class="btn">Register</a> -->
+        <div id="logout" class="right">
+            <form action="logout.php" method="POST">
+                <button type="submit">Logout</button>
+            </form>
         </div>
 
         <div class="container">
