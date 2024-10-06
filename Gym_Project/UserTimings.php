@@ -8,11 +8,10 @@ error_reporting(E_ALL);
 session_start();
 
 $userID = $_SESSION['userid'];
-// print_r($userID); 
 
 $currentTiming = null;
 
-// Fetch the current timing for the logged-in user
+// Fetch the current timing for the logged in user
 $sql = "SELECT TimingID FROM UserTimings WHERE UserID = ?";
 $statement = $mysqli->prepare($sql);
 
@@ -38,21 +37,55 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $timingID = isset($_POST['timing']) ? $_POST['timing'] : null;
 
     if ($timingID) {
-        // Update the selected timing into the UserTimings table
-        $sql = "REPLACE INTO UserTimings (UserID, TimingID) VALUES (?, ?)";
+        // Check if an entry exists for the current user
+        $sql = "SELECT UserID FROM UserTimings WHERE UserID = ?";
         $statement = $mysqli->prepare($sql);
 
         if ($statement === false) {
             echo "Error preparing statement: " . $mysqli->error;
         } else {
-            $statement->bind_param("ii", $userID, $timingID); // Bind user ID and timing ID as integers
+            $statement->bind_param("i", $userID);
+            $statement->execute();
+            $result = $statement->get_result();
 
-            if ($statement->execute()) {
-                echo "<div class='alert alert-success' role='alert'>";
-                echo "Timing selection saved!";
-                echo "</div>";
+            if ($result->num_rows > 0) {
+                // If a record exists, update it
+                $sql = "UPDATE UserTimings SET TimingID = ? WHERE UserID = ?";
+                $updateStatement = $mysqli->prepare($sql);
+
+                if ($updateStatement === false) {
+                    echo "Error preparing statement: " . $mysqli->error;
+                } else {
+                    $updateStatement->bind_param("ii", $timingID, $userID);
+                    if ($updateStatement->execute()) {
+                        echo "<div class='alert alert-success' role='alert'>";
+                        echo "Timing updated successfully!";
+                        echo "</div>";
+                    } else {
+                        echo "Error: " . $updateStatement->error;
+                    }
+
+                    $updateStatement->close();
+                }
             } else {
-                echo "Error: " . $statement->error;
+                // If no record exists, insert a new one
+                $sql = "INSERT INTO UserTimings (UserID, TimingID) VALUES (?, ?)";
+                $insertStatement = $mysqli->prepare($sql);
+
+                if ($insertStatement === false) {
+                    echo "Error preparing statement: " . $mysqli->error;
+                } else {
+                    $insertStatement->bind_param("ii", $userID, $timingID);
+                    if ($insertStatement->execute()) {
+                        echo "<div class='alert alert-success' role='alert'>";
+                        echo "Timing set successfully!";
+                        echo "</div>";
+                    } else {
+                        echo "Error: " . $insertStatement->error;
+                    }
+
+                    $insertStatement->close();
+                }
             }
 
             $statement->close();
