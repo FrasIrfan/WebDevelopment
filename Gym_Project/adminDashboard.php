@@ -55,8 +55,10 @@ if (!isset($_SESSION['username'])) {
         </div>
 
         <!-- right box for buttons and notifications -->
-        <div class="right">
-            <a href="logout.php" class="btn">Logout</a>
+        <div id="logout" class="right">
+            <form action="logout.php" method="POST">
+                <button type="submit">Logout</button>
+            </form>
         </div>
 
 
