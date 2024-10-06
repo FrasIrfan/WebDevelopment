@@ -23,16 +23,16 @@
         <!-- <div class="mid">
             <ul class="navbar">
                 <!-- <li><a href="/about.html">Trainers</a></li> -->
-                <!-- <li><a href="/contact.html">Equipment</a></li> -->
-                <!-- <li><a href="/about.html">Timings</a></li> -->
-            <!-- </ul> -->
+        <!-- <li><a href="/contact.html">Equipment</a></li> -->
+        <!-- <li><a href="/about.html">Timings</a></li> -->
+        <!-- </ul> -->
         <!-- </div> --> -->
 
-        <!-- right box for buttons  -->
         <div class="right">
-            <a href="login.php" class="btn">Login</a>
-            <a href="registration.php" class="btn">Register</a>
+            <button class="btn" id="login" onclick="window.location.href='login.php'">Login</button>
+            <button class="btn" id="registration" onclick="window.location.href='registration.php'">Register</button>
         </div>
+
 
         <div class="container">
             <h1>Welcome to the best GYM of Lahore!</h1>
