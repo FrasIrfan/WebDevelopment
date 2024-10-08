@@ -31,10 +31,11 @@ $db->close();
     <title>Timings</title>
     <!-- Include Bootstrap CSS for responsive and styled UI components -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="info.css"> 
+    <link rel="stylesheet" href="info.css">
 </head>
 
 <body>
+    <?php include('nav.php'); ?>
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center">
             <h2>Timings</h2>
