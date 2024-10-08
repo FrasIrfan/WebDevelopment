@@ -40,6 +40,7 @@ $db->close();
 </head>
 
 <body>
+    <?php include('nav.php'); ?>
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center">
             <h2>Equipment List</h2>
@@ -80,8 +81,8 @@ $db->close();
                             <td><?= $equipment['CreatedAt'] ?></td>
                             <td style="width:15%;">
                                 <a href="editEquipment.php?id=<?= $equipment['EquipmentID'] ?>" class="btn btn-primary btn-sm mr-2">Edit</a>
-                            
-                            
+
+
                                 <a href="deleteEquipment.php?id=<?= $equipment['EquipmentID'] ?>" class="btn btn-danger btn-sm ">Remove</a>
                             </td>
                         </tr>
