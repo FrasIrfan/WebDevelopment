@@ -45,6 +45,7 @@ $db->close();
 </head>
 
 <body>
+    <?php include('nav.php'); ?>
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center">
             <h2>Payments List</h2>
@@ -58,13 +59,11 @@ $db->close();
             <div class="alert alert-danger" role="alert">
                 <?= htmlspecialchars($error) ?>
             </div>
-        <?php }
-        elseif (empty($payments)) { ?>
+        <?php } elseif (empty($payments)) { ?>
             <div class="alert alert-warning" role="alert">
                 No Payments found.
             </div>
-        <?php }
-        else { ?>
+        <?php } else { ?>
             <table class="table table-bordered">
                 <thead>
                     <tr>
