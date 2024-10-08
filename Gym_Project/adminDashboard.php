@@ -40,19 +40,11 @@ if (!isset($_SESSION['username'])) {
             <img src="image/custom_logo.png" />
         </div>
 
+
         <!-- mid box for navigation -->
-        <div class="mid">
-            <ul class="navbar">
-                <li><a href="/Gym_Project/readUsers.php">Users</a></li>
-                <li><a href="/Gym_Project/readAttendance.php">Attendance</a></li>
-                <li><a href="/Gym_Project/readEquipment.php">Equipment</a></li>
-                <li><a href="/Gym_Project/readTimings.php">Timings</a></li>
-                <li><a href="/Gym_Project/readPayments.php">Payments</a></li>
-                <li><a href="/Gym_Project/readPackages.php">Packages</a></li>
+        <?php include('nav.php'); ?> <!-- Include the external nav file -->
 
 
-            </ul>
-        </div>
 
         <!-- right box for buttons and notifications -->
         <div id="logout" class="right">
