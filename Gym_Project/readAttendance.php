@@ -42,6 +42,7 @@ $db->close();
 </head>
 
 <body>
+    <?php include('nav.php'); ?>
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2>Attendance Sheet</h2>
@@ -55,13 +56,11 @@ $db->close();
             <div class="alert alert-danger" role="alert">
                 <?= $error ?>
             </div>
-        <?php }
-        elseif (empty($attendance)) { ?>
+        <?php } elseif (empty($attendance)) { ?>
             <div class="alert alert-warning" role="alert">
                 No attendance records found.
             </div>
-        <?php }
-        else { ?>
+        <?php } else { ?>
             <table class="table table-bordered">
                 <thead>
                     <tr>
