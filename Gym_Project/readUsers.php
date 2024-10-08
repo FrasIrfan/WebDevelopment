@@ -37,10 +37,15 @@ $db->close();
     <!-- Include Bootstrap CSS for responsive and styled UI components -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="info.css">
-    
+
+
 </head>
 
 <body>
+    <!-- Include navigation here -->
+    <?php include('nav.php'); ?> <!-- Include the external nav file -->
+
+
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2>USERS LIST</h2>
