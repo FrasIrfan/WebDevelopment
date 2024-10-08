@@ -117,7 +117,7 @@ button:active {
 }
 .navbar li a:hover,
 .navbar li a:active {
-  color: rgb(255, 149, 0);
+  color: burlywood;
   transition: color 0.9s ease;
   text-transform: uppercase;
   text-decoration: underline;
@@ -182,3 +182,10 @@ button:active {
   color: white;
   margin: 0;
 }
+
+.navbar li.active a {
+  color: #f39c12; /* Highlight color */
+  font-weight: bold; /* Bold to emphasize the active page */
+  text-decoration: underline; /* Optional underline to distinguish */
+}
+
