@@ -36,6 +36,7 @@ $db->close();
     <title>User List</title>
     <!-- Include Bootstrap CSS for responsive and styled UI components -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="info.css">
 
 
@@ -91,10 +92,14 @@ $db->close();
                             <td><?= $user['CreatedAt'] ?></td>
                             <td><?= $user['UserType'] ?></td>
                             <td>
-                                <a href="editUser.php?id=<?= $user['ID'] ?>" class="btn btn-primary btn-sm">Edit</a>
+                                <a href="editUser.php?id=<?= $user['ID'] ?>" class="btn btn-primary btn-sm" title="Edit">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
                             </td>
                             <td>
-                                <a href="deleteUser.php?id=<?= $user['ID'] ?>" class="btn btn-danger btn-sm">Remove</a>
+                                <a href="deleteUser.php?id=<?= $user['ID'] ?>" class="btn btn-danger btn-sm" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </a>
                             </td>
                         </tr>
                     <?php } ?>
@@ -107,6 +112,8 @@ $db->close();
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    
 </body>
 
 </html>
