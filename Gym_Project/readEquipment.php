@@ -35,6 +35,7 @@ $db->close();
     <title>Equipment List</title>
     <!-- Include Bootstrap CSS for responsive and styled UI components -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="info.css">
 
 </head>
@@ -75,15 +76,18 @@ $db->close();
                 <tbody>
                     <?php foreach ($equipments as $equipment) { ?>
                         <tr>
-                            <!-- Output the first name, last name, and email of each user -->
+                    
                             <td><?= $equipment['EquipmentName'] ?></td>
                             <td><?= $equipment['BuyingPrice'] ?></td>
                             <td><?= $equipment['CreatedAt'] ?></td>
-                            <td style="width:15%;">
-                                <a href="editEquipment.php?id=<?= $equipment['EquipmentID'] ?>" class="btn btn-primary btn-sm mr-2">Edit</a>
-
-
-                                <a href="deleteEquipment.php?id=<?= $equipment['EquipmentID'] ?>" class="btn btn-danger btn-sm ">Remove</a>
+                            <td style="width:10%;">
+                                <a href="editEquipment.php?id=<?= $equipment['EquipmentID'] ?>" class="btn btn-primary btn-sm" title="Edit">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
+                        
+                                <a href="deleteEquipment.php?id=<?= $equipment['EquipmentID'] ?>" class="btn btn-danger btn-sm" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </a>
                             </td>
                         </tr>
                     <?php } ?>
