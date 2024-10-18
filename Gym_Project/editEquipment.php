@@ -4,12 +4,13 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-
 // Include the Database and EquipmentManager classes
 require_once 'database.php';
 require_once 'equipmentManagerClass.php';
 
 session_start();
+// echo "Equipment ID: " . $_GET['id']; // Print the ID being passed
+
 
 // Create an instance of the Database class
 $db = new Database();
@@ -48,6 +49,7 @@ if (isset($_GET['id'])) {
     <title>Edit Equipment</title>
     <!-- Include Bootstrap CSS for responsive and styled UI components -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="info.css">
 </head>
 
 <body>
@@ -56,11 +58,11 @@ if (isset($_GET['id'])) {
         <form method="post">
             <div class="form-group">
                 <label for="equipmentName">Equipment Name</label>
-                <input type="text" class="form-control" id="equipmentName" name="equipment_name" value="<?= htmlspecialchars($equipmentManager->equipmentName) ?>" required>
+                <input type="text" class="form-control" id="equipmentName" name="equipment_name" value="<?= htmlspecialchars($equipmentManager->equipmentName ?? '') ?>" required>
             </div>
             <div class="form-group">
                 <label for="buyingPrice">Buying Price</label>
-                <input type="number" class="form-control" id="buyingPrice" name="buying_price" value="<?= htmlspecialchars($equipmentManager->buyingPrice) ?>" required>
+                <input type="number" class="form-control" id="buyingPrice" name="buying_price" value="<?= htmlspecialchars($equipmentManager->buyingPrice ?? '') ?>" required>
             </div>
             <button type="submit" class="btn btn-primary">Update Equipment</button>
             <a href="readEquipment.php" class="btn btn-secondary">Cancel</a>
