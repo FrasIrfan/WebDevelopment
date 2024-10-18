@@ -63,6 +63,7 @@ $db->close();
 </head>
 
 <body>
+    
     <div class="container mt-5">
         <h2>Add User</h2>
         <?php if ($message): ?>
