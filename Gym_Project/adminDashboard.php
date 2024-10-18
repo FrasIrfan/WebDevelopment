@@ -40,10 +40,29 @@ if (!isset($_SESSION['username'])) {
             <img src="image/custom_logo.png" />
         </div>
 
-
         <!-- mid box for navigation -->
-        <?php include('nav.php'); ?> <!-- Include the external nav file -->
-
+        <div class="mid">
+            <ul class="navbar">
+                <li class="<?php echo basename($_SERVER['PHP_SELF']) == 'readUsers.php' ? 'active' : ''; ?>">
+                    <a href="/Gym_Project/readUsers.php">Users</a>
+                </li>
+                <li class="<?php echo basename($_SERVER['PHP_SELF']) == 'readAttendance.php' ? 'active' : ''; ?>">
+                    <a href="/Gym_Project/readAttendance.php">Attendance</a>
+                </li>
+                <li class="<?php echo basename($_SERVER['PHP_SELF']) == 'readEquipment.php' ? 'active' : ''; ?>">
+                    <a href="/Gym_Project/readEquipment.php">Equipment</a>
+                </li>
+                <li class="<?php echo basename($_SERVER['PHP_SELF']) == 'readTimings.php' ? 'active' : ''; ?>">
+                    <a href="/Gym_Project/readTimings.php">Timings</a>
+                </li>
+                <li class="<?php echo basename($_SERVER['PHP_SELF']) == 'readPayments.php' ? 'active' : ''; ?>">
+                    <a href="/Gym_Project/readPayments.php">Payments</a>
+                </li>
+                <li class="<?php echo basename($_SERVER['PHP_SELF']) == 'readPackages.php' ? 'active' : ''; ?>">
+                    <a href="/Gym_Project/readPackages.php">Packages</a>
+                </li>
+            </ul>
+        </div>
 
 
         <!-- right box for buttons and notifications -->
