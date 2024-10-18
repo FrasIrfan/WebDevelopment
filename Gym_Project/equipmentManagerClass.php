@@ -16,14 +16,22 @@ class EquipmentManager
 
     public function fetchEquipmentDetails()
     {
-        $sql = "SELECT EquipmentName, BuyingPrice FROM Equipments WHERE EquipmentID = ?";
-        $result = $this->db->query($sql, [$this->equipmentId]);
+        $query = "SELECT EquipmentName, BuyingPrice FROM Equipments WHERE EquipmentID = ?";
+        $result = $this->db->query($query, [$this->equipmentId]);
+
+        // Debugging: Check what result is being returned from the database query
+        // echo "<pre>";
+        // print_r($result);
+        // echo "</pre>";
 
         if (!empty($result)) {
             $this->equipmentName = $result[0]['EquipmentName'];
             $this->buyingPrice = $result[0]['BuyingPrice'];
+        } else {
+            echo "No equipment found with this ID.";
         }
     }
+
 
     public function updateEquipment($equipmentName, $buyingPrice)
     {
